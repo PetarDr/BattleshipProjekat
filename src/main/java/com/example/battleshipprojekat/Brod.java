@@ -15,7 +15,7 @@ public class Brod {
 
     public Brod() {
     }
-
+    //iymena da testiram git
     public int getDuzina() {
         return duzina;
     }
