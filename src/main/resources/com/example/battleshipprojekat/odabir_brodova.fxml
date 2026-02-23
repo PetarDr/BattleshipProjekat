@@ -36,6 +36,5 @@
             <Font name="JetBrains Mono SemiBold" size="12.0" />
          </font>
       </Button>
-      <!--brodovi su jedan od 2 polja pa 2x 3 polja pa jedan od 4 i jedan od 5 -->
    </children>
 </AnchorPane>

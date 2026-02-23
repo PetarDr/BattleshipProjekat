@@ -25,7 +25,6 @@ public class HelloController implements Initializable {
     public Button btn07;
     public Button btn08;
     public Button btn09;
-    public Button btn010;
 
     public Button btn10;
     public Button btn11;
@@ -37,7 +36,6 @@ public class HelloController implements Initializable {
     public Button btn17;
     public Button btn18;
     public Button btn19;
-    public Button btn110;
 
     public Button btn20;
     public Button btn21;
@@ -49,7 +47,6 @@ public class HelloController implements Initializable {
     public Button btn27;
     public Button btn28;
     public Button btn29;
-    public Button btn210;
 
     public Button btn30;
     public Button btn31;
@@ -61,7 +58,6 @@ public class HelloController implements Initializable {
     public Button btn37;
     public Button btn38;
     public Button btn39;
-    public Button btn310;
 
     public Button btn40;
     public Button btn41;
@@ -73,7 +69,6 @@ public class HelloController implements Initializable {
     public Button btn47;
     public Button btn48;
     public Button btn49;
-    public Button btn410;
 
     public Button btn50;
     public Button btn51;
@@ -85,7 +80,6 @@ public class HelloController implements Initializable {
     public Button btn57;
     public Button btn58;
     public Button btn59;
-    public Button btn510;
 
     public Button btn60;
     public Button btn61;
@@ -97,7 +91,6 @@ public class HelloController implements Initializable {
     public Button btn67;
     public Button btn68;
     public Button btn69;
-    public Button btn610;
 
     public Button btn70;
     public Button btn71;
@@ -109,7 +102,6 @@ public class HelloController implements Initializable {
     public Button btn77;
     public Button btn78;
     public Button btn79;
-    public Button btn710;
 
     public Button btn80;
     public Button btn81;
@@ -121,7 +113,6 @@ public class HelloController implements Initializable {
     public Button btn87;
     public Button btn88;
     public Button btn89;
-    public Button btn810;
 
     public Button btn90;
     public Button btn91;
@@ -133,7 +124,6 @@ public class HelloController implements Initializable {
     public Button btn97;
     public Button btn98;
     public Button btn99;
-    public Button btn910;
 
     public Button btn100;
     public Button btn101;
