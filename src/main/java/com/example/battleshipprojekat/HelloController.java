@@ -1,5 +1,6 @@
 package com.example.battleshipprojekat;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,7 +24,7 @@ public class HelloController implements Initializable {
         }
         try {
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("odabir_brodova.fxml"));
-            Scene scene = new Scene(loader.load(), 400, 400);
+            Scene scene = new Scene(loader.load(), 600, 400);
             Stage newStage = new Stage();
             newStage.setTitle("Odabir Brodića");
             newStage.setScene(scene);
@@ -51,6 +52,24 @@ public class HelloController implements Initializable {
         if (fxmlPath.contains("hello-view.fxml")) {
             otvoriOdabirBrodica();
         }
+    }
+
+    public void stvoriBrod2(ActionEvent actionEvent) {
+    }
+
+    public void stvoriBrod3(ActionEvent actionEvent) {
+    }
+    public void stvoriBrod4(ActionEvent actionEvent) {
+    }
+
+    public void stvoriBrod5(ActionEvent actionEvent) {
+    }
+
+    public void RotirajBrodLevo(ActionEvent actionEvent) {
+
+    }
+
+    public void RotirajBrodDesno(ActionEvent actionEvent) {
 
     }
 }
