@@ -15,6 +15,8 @@ public class HelloApplication extends Application {
         stage.setTitle("Brodići");
         stage.setScene(scene);
         stage.setResizable(false);
+        stage.setX(450);
+        stage.setY(60);
         stage.show();
     }
 
