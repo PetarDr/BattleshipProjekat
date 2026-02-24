@@ -142,6 +142,40 @@ public class HelloController implements Initializable {
         }
     }
 
+    //gadjanje na njihovu stranu
+    private void handleEnemyClick(int row, int col, Button btn) {
+        if (statusIgre.vremeStavljanja || statusIgre.gameOver || !statusIgre.igracPotez) return;
+        int status = statusIgre.aiTabla[row][col];
+        if (status == 2 || status == 3) return;
+        // 0=prazan, 1=brod, 2=pogodak, 3=masi
+        if (status == 1) {
+            statusIgre.aiTabla[row][col] = 2;
+            btn.setStyle(BOJA_POGOTKA + BTN_BASE);
+            statusIgre.igracPogodci++;
+            checkSunkEnemy(row, col);
+        } else {
+            statusIgre.aiTabla[row][col] = 3;
+            btn.setStyle(BOJA_PROMASAJA + BTN_BASE);
+        }
+        clearPreviewEnemy();
+
+        if (statusIgre.igracPogodci >= statusIgre.enemyShipsTotal) {
+            statusIgre.gameOver = true;
+            showResult("Čestitke! Pobijedio si! 🎉");
+            return;
+        }
+
+        statusIgre.igracPotez = false;
+        // malo vremena da ai puca
+        new Thread(() -> {
+            try {
+                Thread.sleep(600);
+            } catch (InterruptedException ignored) {
+            }
+            Platform.runLater(this::aiShoot);
+        }).start();
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
