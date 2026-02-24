@@ -2,7 +2,7 @@ package com.example.battleshipprojekat;
 
 public enum Pravac {
     SEVER,
-    JUG,
     ISTOK,
+    JUG,
     ZAPAD
 }
