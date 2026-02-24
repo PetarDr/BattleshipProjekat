@@ -1,330 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="835.0" prefWidth="799.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.battleshipprojekat.HelloController">
+<VBox prefHeight="835.0" prefWidth="800.0"
+      xmlns="http://javafx.com/javafx/22"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.battleshipprojekat.HelloController">
    <children>
-      <AnchorPane prefHeight="50.0" prefWidth="732.0">
+
+      <AnchorPane prefHeight="50.0">
          <children>
-            <Text layoutX="284.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Potapanje brodova">
-               <font>
-                  <Font name="Comic Sans MS Italic" size="27.0" />
-               </font>
-            </Text>
+            <Label layoutX="240.0" layoutY="10.0" text="Potapanje brodova">
+               <font><Font name="Comic Sans MS Italic" size="27.0"/></font>
+            </Label>
          </children>
       </AnchorPane>
-      <Separator prefWidth="200.0" />
-      <AnchorPane prefHeight="400.0" prefWidth="799.0">
+
+      <Separator/>
+
+      <Label text="  Neprijateljsko more" style="-fx-text-fill: teal; -fx-font-size:13; -fx-padding:4 0 0 4;"/>
+
+      <AnchorPane prefHeight="480.0" prefWidth="800.0">
          <children>
-            <ImageView fitHeight="197.0" fitWidth="204.0" layoutX="588.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../../Images/radar.gif" />
-               </image>
-            </ImageView>
-             <GridPane layoutX="3.0" layoutY="29.0" prefHeight="373.0" prefWidth="561.0">
-                 <columnConstraints>
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                 </columnConstraints>
-                 <rowConstraints>
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints />
-                 </rowConstraints>
-                 <children>
-                     <!-- Row 0 -->
-                     <Button fx:id="btn00" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                     <Button fx:id="btn01" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                     <Button fx:id="btn02" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-                     <Button fx:id="btn03" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-                     <Button fx:id="btn04" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="0" />
-                     <Button fx:id="btn05" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="0" />
-                     <Button fx:id="btn06" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="0" />
-                     <Button fx:id="btn07" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="0" />
-                     <Button fx:id="btn08" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="0" />
-                     <Button fx:id="btn09" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="0" />
-                     <!-- Row 1 -->
-                     <Button fx:id="btn10" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                     <Button fx:id="btn11" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                     <Button fx:id="btn12" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                     <Button fx:id="btn13" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                     <Button fx:id="btn14" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                     <Button fx:id="btn15" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                     <Button fx:id="btn16" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-                     <Button fx:id="btn17" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="1" />
-                     <Button fx:id="btn18" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="1" />
-                     <Button fx:id="btn19" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="1" />
-                     <!-- Row 2 -->
-                     <Button fx:id="btn20" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                     <Button fx:id="btn21" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                     <Button fx:id="btn22" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                     <Button fx:id="btn23" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                     <Button fx:id="btn24" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                     <Button fx:id="btn25" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                     <Button fx:id="btn26" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="2" />
-                     <Button fx:id="btn27" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="2" />
-                     <Button fx:id="btn28" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="2" />
-                     <Button fx:id="btn29" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="2" />
-                     <!-- Row 3 -->
-                     <Button fx:id="btn30" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                     <Button fx:id="btn31" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                     <Button fx:id="btn32" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                     <Button fx:id="btn33" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                     <Button fx:id="btn34" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                     <Button fx:id="btn35" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="3" />
-                     <Button fx:id="btn36" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="3" />
-                     <Button fx:id="btn37" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="3" />
-                     <Button fx:id="btn38" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="3" />
-                     <Button fx:id="btn39" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="3" />
-                     <!-- Row 4 -->
-                     <Button fx:id="btn40" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                     <Button fx:id="btn41" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                     <Button fx:id="btn42" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                     <Button fx:id="btn43" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                     <Button fx:id="btn44" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-                     <Button fx:id="btn45" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="4" />
-                     <Button fx:id="btn46" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="4" />
-                     <Button fx:id="btn47" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="4" />
-                     <Button fx:id="btn48" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="4" />
-                     <Button fx:id="btn49" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="4" />
-                     <!-- Row 5 -->
-                     <Button fx:id="btn50" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                     <Button fx:id="btn51" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                     <Button fx:id="btn52" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                     <Button fx:id="btn53" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-                     <Button fx:id="btn54" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-                     <Button fx:id="btn55" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="5" />
-                     <Button fx:id="btn56" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="5" />
-                     <Button fx:id="btn57" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="5" />
-                     <Button fx:id="btn58" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="5" />
-                     <Button fx:id="btn59" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="5" />
-                     <!-- Row 6 -->
-                     <Button fx:id="btn60" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-                     <Button fx:id="btn61" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                     <Button fx:id="btn62" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                     <Button fx:id="btn63" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-                     <Button fx:id="btn64" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="6" />
-                     <Button fx:id="btn65" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="6" />
-                     <Button fx:id="btn66" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="6" />
-                     <Button fx:id="btn67" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="6" />
-                     <Button fx:id="btn68" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="6" />
-                     <Button fx:id="btn69" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="6" />
-                     <!-- Row 7 -->
-                     <Button fx:id="btn70" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-                     <Button fx:id="btn71" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                     <Button fx:id="btn72" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-                     <Button fx:id="btn73" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="7" />
-                     <Button fx:id="btn74" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="7" />
-                     <Button fx:id="btn75" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="7" />
-                     <Button fx:id="btn76" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="7" />
-                     <Button fx:id="btn77" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="7" />
-                     <Button fx:id="btn78" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="7" />
-                     <Button fx:id="btn79" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="7" />
-                     <!-- Row 8 -->
-                     <Button fx:id="btn80" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-                     <Button fx:id="btn81" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                     <Button fx:id="btn82" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-                     <Button fx:id="btn83" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="8" />
-                     <Button fx:id="btn84" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="8" />
-                     <Button fx:id="btn85" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="8" />
-                     <Button fx:id="btn86" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="8" />
-                     <Button fx:id="btn87" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="8" />
-                     <Button fx:id="btn88" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="8" />
-                     <Button fx:id="btn89" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="8" />
-                     <!-- Row 9 -->
-                     <Button fx:id="btn90" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="9" />
-                     <Button fx:id="btn91" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                     <Button fx:id="btn92" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-                     <Button fx:id="btn93" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="9" />
-                     <Button fx:id="btn94" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="9" />
-                     <Button fx:id="btn95" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="9" />
-                     <Button fx:id="btn96" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="9" />
-                     <Button fx:id="btn97" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="9" />
-                     <Button fx:id="btn98" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="9" />
-                     <Button fx:id="btn99" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="9" />
-                     <!-- Row 10 -->
-                     <Button fx:id="btn100" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="10" />
-                     <Button fx:id="btn101" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-                     <Button fx:id="btn102" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="10" />
-                     <Button fx:id="btn103" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="10" />
-                     <Button fx:id="btn104" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="10" />
-                     <Button fx:id="btn105" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="10" />
-                     <Button fx:id="btn106" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="10" />
-                     <Button fx:id="btn107" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="10" />
-                     <Button fx:id="btn108" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="10" />
-                     <Button fx:id="btn109" mnemonicParsing="false" onAction="#pucaj" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: aqua; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="10" />
-                 </children>
-             </GridPane>
+            <GridPane fx:id="aiGrid" layoutX="5.0" layoutY="5.0" prefHeight="460.0" prefWidth="540.0">
+               <columnConstraints>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+               </rowConstraints>
+            </GridPane>
          </children>
       </AnchorPane>
-      <Separator prefWidth="200.0" />
-      <AnchorPane prefHeight="355.0" prefWidth="799.0">
+
+      <Separator/>
+
+      <Label text="  Najbolje more na svetu" style="-fx-text-fill: #3060c0; -fx-font-size:13; -fx-padding:4 0 0 4;"/>
+
+      <AnchorPane prefHeight="480.0" prefWidth="800.0">
          <children>
-             <GridPane layoutX="2.0" layoutY="23.0" prefHeight="309.0" prefWidth="575.0">
-                 <columnConstraints>
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                 </columnConstraints>
-                 <rowConstraints>
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                 </rowConstraints>
-                 <children>
-                     <!-- Row 0 -->
-                     <Button fx:id="btnd00" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                     <Button fx:id="btnd01" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                     <Button fx:id="btnd02" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-                     <Button fx:id="btnd03" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-                     <Button fx:id="btnd04" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="0" />
-                     <Button fx:id="btnd05" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="0" />
-                     <Button fx:id="btnd06" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="0" />
-                     <Button fx:id="btnd07" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="0" />
-                     <Button fx:id="btnd08" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="0" />
-                     <Button fx:id="btnd09" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="0" />
-                     <!-- Row 1 -->
-                     <Button fx:id="btnd10" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                     <Button fx:id="btnd11" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                     <Button fx:id="btnd12" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                     <Button fx:id="btnd13" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                     <Button fx:id="btnd14" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                     <Button fx:id="btnd15" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                     <Button fx:id="btnd16" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-                     <Button fx:id="btnd17" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="1" />
-                     <Button fx:id="btnd18" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="1" />
-                     <Button fx:id="btnd19" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="1" />
-                     <!-- Row 2 -->
-                     <Button fx:id="btnd20" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                     <Button fx:id="btnd21" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                     <Button fx:id="btnd22" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                     <Button fx:id="btnd23" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                     <Button fx:id="btnd24" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                     <Button fx:id="btnd25" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                     <Button fx:id="btnd26" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="2" />
-                     <Button fx:id="btnd27" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="2" />
-                     <Button fx:id="btnd28" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="2" />
-                     <Button fx:id="btnd29" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="2" />
-                     <!-- Row 3 -->
-                     <Button fx:id="btnd30" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                     <Button fx:id="btnd31" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                     <Button fx:id="btnd32" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                     <Button fx:id="btnd33" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                     <Button fx:id="btnd34" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                     <Button fx:id="btnd35" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="3" />
-                     <Button fx:id="btnd36" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="3" />
-                     <Button fx:id="btnd37" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="3" />
-                     <Button fx:id="btnd38" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="3" />
-                     <Button fx:id="btnd39" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="3" />
-                     <!-- Row 4 -->
-                     <Button fx:id="btnd40" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                     <Button fx:id="btnd41" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                     <Button fx:id="btnd42" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                     <Button fx:id="btnd43" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                     <Button fx:id="btnd44" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-                     <Button fx:id="btnd45" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="4" />
-                     <Button fx:id="btnd46" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="4" />
-                     <Button fx:id="btnd47" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="4" />
-                     <Button fx:id="btnd48" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="4" />
-                     <Button fx:id="btnd49" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="4" />
-                     <!-- Row 5 -->
-                     <Button fx:id="btnd50" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                     <Button fx:id="btnd51" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                     <Button fx:id="btnd52" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                     <Button fx:id="btnd53" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-                     <Button fx:id="btnd54" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-                     <Button fx:id="btnd55" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="5" />
-                     <Button fx:id="btnd56" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="5" />
-                     <Button fx:id="btnd57" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="5" />
-                     <Button fx:id="btnd58" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="5" />
-                     <Button fx:id="btnd59" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="5" />
-                     <!-- Row 6 -->
-                     <Button fx:id="btnd60" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-                     <Button fx:id="btnd61" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                     <Button fx:id="btnd62" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                     <Button fx:id="btnd63" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-                     <Button fx:id="btnd64" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="6" />
-                     <Button fx:id="btnd65" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="6" />
-                     <Button fx:id="btnd66" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="6" />
-                     <Button fx:id="btnd67" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="6" />
-                     <Button fx:id="btnd68" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="6" />
-                     <Button fx:id="btnd69" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="6" />
-                     <!-- Row 7 -->
-                     <Button fx:id="btnd70" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-                     <Button fx:id="btnd71" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                     <Button fx:id="btnd72" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-                     <Button fx:id="btnd73" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="7" />
-                     <Button fx:id="btnd74" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="7" />
-                     <Button fx:id="btnd75" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="7" />
-                     <Button fx:id="btnd76" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="7" />
-                     <Button fx:id="btnd77" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="7" />
-                     <Button fx:id="btnd78" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="7" />
-                     <Button fx:id="btnd79" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="7" />
-                     <!-- Row 8 -->
-                     <Button fx:id="btnd80" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-                     <Button fx:id="btnd81" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                     <Button fx:id="btnd82" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-                     <Button fx:id="btnd83" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="8" />
-                     <Button fx:id="btnd84" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="8" />
-                     <Button fx:id="btnd85" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="8" />
-                     <Button fx:id="btnd86" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="8" />
-                     <Button fx:id="btnd87" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="8" />
-                     <Button fx:id="btnd88" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="8" />
-                     <Button fx:id="btnd89" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="8" />
-                     <!-- Row 9 -->
-                     <Button fx:id="btnd90" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="0" GridPane.rowIndex="9" />
-                     <Button fx:id="btnd91" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                     <Button fx:id="btnd92" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-                     <Button fx:id="btnd93" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="9" />
-                     <Button fx:id="btnd94" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="4" GridPane.rowIndex="9" />
-                     <Button fx:id="btnd95" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="5" GridPane.rowIndex="9" />
-                     <Button fx:id="btnd96" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="6" GridPane.rowIndex="9" />
-                     <Button fx:id="btnd97" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="7" GridPane.rowIndex="9" />
-                     <Button fx:id="btnd98" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="8" GridPane.rowIndex="9" />
-                     <Button fx:id="btnd99" mnemonicParsing="false" prefHeight="46.0" prefWidth="54.0" style="-fx-background-color: navy; -fx-border-color: grey; -fx-border-radius: 5;" GridPane.columnIndex="9" GridPane.rowIndex="9" />
-                 </children>
-             </GridPane>
+            <GridPane fx:id="igracGrid" layoutX="5.0" layoutY="5.0" prefHeight="460.0" prefWidth="540.0">
+               <columnConstraints>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+                  <ColumnConstraints minWidth="10" prefWidth="54"/>
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+                  <RowConstraints minHeight="10" prefHeight="46"/>
+               </rowConstraints>
+            </GridPane>
          </children>
       </AnchorPane>
+
    </children>
 </VBox>
