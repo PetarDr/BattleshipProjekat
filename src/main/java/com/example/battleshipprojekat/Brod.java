@@ -1,21 +1,28 @@
 package com.example.battleshipprojekat;
 
 public class Brod {
+
     int duzina;
     String klasa;
-    char pravac;
+    Pravac pravac = Pravac.SEVER;
     Koordinate koordinate;
 
-    public Brod(int duzina, String klasa, char pravac, Koordinate koordinate) {
+    public Brod(int duzina, String klasa, Pravac pravac, Koordinate koordinate) {
         this.duzina = duzina;
         this.klasa = klasa;
         this.pravac = pravac;
         this.koordinate = koordinate;
     }
 
+    public Brod(Koordinate koordinate, String klasa, int duzina) {
+        this.koordinate = koordinate;
+        this.klasa = klasa;
+        this.duzina = duzina;
+    }
+
     public Brod() {
     }
-    //iymena da testiram git
+
     public int getDuzina() {
         return duzina;
     }
@@ -24,7 +31,7 @@ public class Brod {
         return klasa;
     }
 
-    public char getPravac() {
+    public Pravac getPravac() {
         return pravac;
     }
 
