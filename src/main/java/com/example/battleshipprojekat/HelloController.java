@@ -305,4 +305,23 @@ public class HelloController implements Initializable {
                     statusIgre.aiDugmad[red][kolona].setStyle(BOJA_NEPRIJATLJSKE_VODE + BTN_BASE);
             }
     }
+
+    private void showResult(String msg) {
+        Platform.runLater(() -> {
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setTitle("Kraj igre");
+            a.setHeaderText(null);
+            a.setContentText(msg);
+            a.showAndWait();
+
+            statusIgre.reset();
+
+            for (int red = 0; red < 10; red++)
+                for (int kolona = 0; kolona < 10; kolona++) {
+                    statusIgre.igracDugmad[red][kolona].setStyle(BOJA_NASE_VODE + BTN_BASE);
+                    statusIgre.aiDugmad[red][kolona].setStyle(BOJA_NEPRIJATLJSKE_VODE + BTN_BASE);
+                }
+            otvoriOdabirBrodića();
+        });
+    }
 }
