@@ -269,14 +269,40 @@ public class HelloController implements Initializable {
         dubinaPrvoPregledZaHitove(red, kolona + 1, board, pregledano, out);
     }
 
-    public void RotirajBrodLevo(ActionEvent actionEvent) {
-
+    //ona sranja za postavljanje dal je dobro ili ne
+    private void showPreviewPlayer(int row, int col) {
+        if (!statusIgre.vremeStavljanja || statusIgre.selectedShipSize == 0) return;
+        boolean valid = statusIgre.canPlace(row, col, statusIgre.selectedShipSize, statusIgre.pravac, statusIgre.igracTabla);
+        for (int[] cell : statusIgre.shipCells(row, col, statusIgre.selectedShipSize, statusIgre.pravac)) {
+            int red = cell[0], kolona = cell[1];
+            if (red < 0 || red >= 10 || kolona < 0 || kolona >= 10) continue;
+            if (statusIgre.igracTabla[red][kolona] == 0)
+                statusIgre.igracDugmad[red][kolona].setStyle((valid ? BOJA_BRODA_PLACEHOLDER : BOJA_LOSEG_STAVLJANJA) + BTN_BASE);
+        }
     }
 
-    public void RotirajBrodDesno(ActionEvent actionEvent) {
-
+    private void clearPreviewPlayer() {
+        for (int red = 0; red < 10; red++)
+            for (int kolona = 0; kolona < 10; kolona++)
+                if (statusIgre.igracTabla[red][kolona] == 0)
+                    statusIgre.igracDugmad[red][kolona].setStyle(BOJA_NASE_VODE + BTN_BASE);
+                else if (statusIgre.igracTabla[red][kolona] == 1)
+                    statusIgre.igracDugmad[red][kolona].setStyle(BOJA_BRODA + BTN_BASE);
     }
 
-    public void pucaj(ActionEvent event) {
+    private void showPreviewEnemy(int row, int col) {
+        if (statusIgre.vremeStavljanja || statusIgre.gameOver || !statusIgre.igracPotez) return;
+        int state = statusIgre.aiTabla[row][col];
+        if (state != 0 && state != 1) return;
+        statusIgre.aiDugmad[row][col].setStyle("-fx-background-color: #ffeb3b;" + BTN_BASE);
+    }
+
+    private void clearPreviewEnemy() {
+        for (int red = 0; red < 10; red++)
+            for (int kolona = 0; kolona < 10; kolona++) {
+                int status = statusIgre.aiTabla[red][kolona];
+                if (status == 0 || status == 1)
+                    statusIgre.aiDugmad[red][kolona].setStyle(BOJA_NEPRIJATLJSKE_VODE + BTN_BASE);
+            }
     }
 }
