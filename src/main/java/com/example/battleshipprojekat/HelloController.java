@@ -1,147 +1,89 @@
 package com.example.battleshipprojekat;
 
-import javafx.event.ActionEvent;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class HelloController implements Initializable {
-    private static boolean jeliSeBirajuBrodovi = false;
 
-    public Button btn00;
-    public Button btn01;
-    public Button btn02;
-    public Button btn03;
-    public Button btn04;
-    public Button btn05;
-    public Button btn06;
-    public Button btn07;
-    public Button btn08;
-    public Button btn09;
-
-    public Button btn10;
-    public Button btn11;
-    public Button btn12;
-    public Button btn13;
-    public Button btn14;
-    public Button btn15;
-    public Button btn16;
-    public Button btn17;
-    public Button btn18;
-    public Button btn19;
-
-    public Button btn20;
-    public Button btn21;
-    public Button btn22;
-    public Button btn23;
-    public Button btn24;
-    public Button btn25;
-    public Button btn26;
-    public Button btn27;
-    public Button btn28;
-    public Button btn29;
-
-    public Button btn30;
-    public Button btn31;
-    public Button btn32;
-    public Button btn33;
-    public Button btn34;
-    public Button btn35;
-    public Button btn36;
-    public Button btn37;
-    public Button btn38;
-    public Button btn39;
-
-    public Button btn40;
-    public Button btn41;
-    public Button btn42;
-    public Button btn43;
-    public Button btn44;
-    public Button btn45;
-    public Button btn46;
-    public Button btn47;
-    public Button btn48;
-    public Button btn49;
-
-    public Button btn50;
-    public Button btn51;
-    public Button btn52;
-    public Button btn53;
-    public Button btn54;
-    public Button btn55;
-    public Button btn56;
-    public Button btn57;
-    public Button btn58;
-    public Button btn59;
-
-    public Button btn60;
-    public Button btn61;
-    public Button btn62;
-    public Button btn63;
-    public Button btn64;
-    public Button btn65;
-    public Button btn66;
-    public Button btn67;
-    public Button btn68;
-    public Button btn69;
-
-    public Button btn70;
-    public Button btn71;
-    public Button btn72;
-    public Button btn73;
-    public Button btn74;
-    public Button btn75;
-    public Button btn76;
-    public Button btn77;
-    public Button btn78;
-    public Button btn79;
-
-    public Button btn80;
-    public Button btn81;
-    public Button btn82;
-    public Button btn83;
-    public Button btn84;
-    public Button btn85;
-    public Button btn86;
-    public Button btn87;
-    public Button btn88;
-    public Button btn89;
-
-    public Button btn90;
-    public Button btn91;
-    public Button btn92;
-    public Button btn93;
-    public Button btn94;
-    public Button btn95;
-    public Button btn96;
-    public Button btn97;
-    public Button btn98;
-    public Button btn99;
-
-    public Button btn100;
-    public Button btn101;
-    public Button btn102;
-    public Button btn103;
-    public Button btn104;
-    public Button btn105;
-    public Button btn106;
-    public Button btn107;
-    public Button btn108;
-    public Button btn109;
-    public Button btn1010;
+    //da nisam skonto da treba gamestate iz najradnom yt tutorijala nebi nikad ovo uradili
+    private final GameState statusIgre = GameState.INSTANCE;
 
     @FXML
     private void otvoriOdabirBrodica() {
         if (jeliSeBirajuBrodovi){
             return;
         }
+    private GridPane aiGrid;
+    @FXML
+    private GridPane igracGrid;
+
+    private static boolean daLiSeBirajuBrodići = false;
+    private static Stage stageZaOdabirBrodića = null; // ovo treba da se zatvori
+
+    // bojice njam njam :3 (OVO ZAMENITI SLIKAMA PRE ROKA)
+    private static final String BOJA_NEPRIJATLJSKE_VODE = "-fx-background-color: #00cccc;";
+    private static final String BOJA_NASE_VODE = "-fx-background-color: #001a66;";
+    private static final String BOJA_BRODA = "-fx-background-color: #607d8b;";
+    private static final String BOJA_BRODA_PLACEHOLDER = "-fx-background-color: #a5d6a7;";
+    private static final String BOJA_LOSEG_STAVLJANJA = "-fx-background-color: #ef9a9a;";
+    private static final String BOJA_POGOTKA = "-fx-background-color: #e53935;";
+    private static final String BOJA_PROMASAJA = "-fx-background-color: #eceff1;";
+    private static final String BOJA_POTOPLJENO = "-fx-background-color: #880e4f;";
+    private static final String BTN_BASE = "-fx-border-color: #455a64; -fx-border-radius: 4; -fx-background-radius: 4;";
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        String path = url != null ? url.getPath() : "";
+        if (path.contains("hello-view.fxml")) {
+            buildGrids();
+            otvoriOdabirBrodića();
+        }
+    }
+
+
+    //e ovde vec postaje zajebano fala kurcu za indijce na yt
+    private void buildGrids() {
+        for (int r = 0; r < 10; r++) {
+            for (int c = 0; c < 10; c++) {
+
+                Button aiPolja = makeBtn(BOJA_NEPRIJATLJSKE_VODE);
+                final int row = r, col = c;
+                aiPolja.setOnAction(e -> handleEnemyClick(row, col, aiPolja));
+                aiPolja.setOnMouseEntered(e -> showPreviewEnemy(row, col));
+                aiPolja.setOnMouseExited(e -> clearPreviewEnemy());
+                aiGrid.add(aiPolja, c, r);
+                statusIgre.aiDugmad[r][c] = aiPolja;
+
+                Button igracPolja = makeBtn(BOJA_NASE_VODE);
+                igracPolja.setOnAction(e -> handlePlayerClick(row, col));
+                igracPolja.setOnMouseEntered(e -> showPreviewPlayer(row, col));
+                igracPolja.setOnMouseExited(e -> clearPreviewPlayer());
+                igracGrid.add(igracPolja, c, r);
+                statusIgre.igracDugmad[r][c] = igracPolja;
+            }
+        }
+    }
+
+    private Button makeBtn(String color) {
+        Button b = new Button();
+        b.setPrefSize(52, 46);
+        b.setStyle(color + BTN_BASE);
+        return b;
+    }
+
+    private void otvoriOdabirBrodića() {
+        if (daLiSeBirajuBrodići) return;
         try {
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("odabir_brodova.fxml"));
             Scene scene = new Scene(loader.load(), 600, 400);
@@ -151,17 +93,32 @@ public class HelloController implements Initializable {
             newStage.setResizable(false);
             newStage.setX(1120);
             newStage.setY(220);
+            Stage stage = new Stage();
+            stage.setTitle("Odabir brodića");
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.setX(1120);
+            stage.setY(220);
+            stageZaOdabirBrodića = stage;
+            daLiSeBirajuBrodići = true;
+            stage.setOnCloseRequest(e -> {
+                daLiSeBirajuBrodići = false;
+                stageZaOdabirBrodića = null;
+            });
+            stage.show();
+            stage.setAlwaysOnTop(true);
+            stage.toFront();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
 
             jeliSeBirajuBrodovi = true;
             newStage.setOnCloseRequest(event -> {
                 jeliSeBirajuBrodovi = false;
             });
-            newStage.show();
-            newStage.setAlwaysOnTop(true);
-            newStage.toFront();
-            newStage.requestFocus();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -174,7 +131,14 @@ public class HelloController implements Initializable {
         }
     }
 
-    public void stvoriBrod2(ActionEvent actionEvent) {
+    private boolean imaPored(int r, int c, int[][] board) {
+        int[][] okolnaPolja = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        for (int[] d : okolnaPolja) {
+            int noviRed = r + d[0], novaKolona = c + d[1];
+            if (noviRed >= 0 && noviRed < 10 && novaKolona >= 0 && novaKolona < 10 && board[noviRed][novaKolona] == 2)
+                return true;
+        }
+        return false;
     }
 
     public void stvoriBrod3(ActionEvent actionEvent) {
