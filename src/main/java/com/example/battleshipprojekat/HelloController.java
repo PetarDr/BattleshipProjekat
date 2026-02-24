@@ -20,10 +20,6 @@ public class HelloController implements Initializable {
     private final GameState statusIgre = GameState.INSTANCE;
 
     @FXML
-    private void otvoriOdabirBrodica() {
-        if (jeliSeBirajuBrodovi){
-            return;
-        }
     private GridPane aiGrid;
     @FXML
     private GridPane igracGrid;
@@ -87,12 +83,6 @@ public class HelloController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("odabir_brodova.fxml"));
             Scene scene = new Scene(loader.load(), 600, 400);
-            Stage newStage = new Stage();
-            newStage.setTitle("Odabir Brodića");
-            newStage.setScene(scene);
-            newStage.setResizable(false);
-            newStage.setX(1120);
-            newStage.setY(220);
             Stage stage = new Stage();
             stage.setTitle("Odabir brodića");
             stage.setScene(scene);
@@ -114,10 +104,40 @@ public class HelloController implements Initializable {
     }
 
 
+    //onaj kurac za stavljane brodova
+    private void handlePlayerClick(int row, int col) {
+        if (!statusIgre.vremeStavljanja) return;
+        if (statusIgre.selectedShipSize == 0) return;
+        if (!statusIgre.canPlace(row, col, statusIgre.selectedShipSize, statusIgre.pravac, statusIgre.igracTabla))
+            return;
 
-            jeliSeBirajuBrodovi = true;
-            newStage.setOnCloseRequest(event -> {
-                jeliSeBirajuBrodovi = false;
+        statusIgre.postaviBrod(row, col, statusIgre.selectedShipSize, statusIgre.pravac, statusIgre.igracTabla);
+
+        for (int[] cell : statusIgre.shipCells(row, col, statusIgre.selectedShipSize, statusIgre.pravac)) {
+            statusIgre.igracDugmad[cell[0]][cell[1]].setStyle(BOJA_BRODA + BTN_BASE);
+        }
+
+        int remaining = statusIgre.brodoviKojiTrebajuBivatiPostavljeni.getOrDefault(statusIgre.selectedShipSize, 0);
+        if (remaining > 0)
+            statusIgre.brodoviKojiTrebajuBivatiPostavljeni.put(statusIgre.selectedShipSize, remaining - 1);
+        statusIgre.selectedShipSize = 0;
+
+        OdabirController.notifyUpdate();
+
+        if (statusIgre.allShipsPlaced()) {
+            statusIgre.vremeStavljanja = false;
+            statusIgre.postaviAiBrodove();
+            Platform.runLater(() -> {
+                Alert a = new Alert(Alert.AlertType.INFORMATION);
+                a.setTitle("Igra počinje!");
+                a.setHeaderText(null);
+                a.setContentText("Svi brodovi su postavljeni! Pucaj na plavu (gornju) mrežu protivnika.");
+                a.showAndWait();
+                if (stageZaOdabirBrodića != null) {
+                    stageZaOdabirBrodića.close();
+                    stageZaOdabirBrodića = null;
+                    daLiSeBirajuBrodići = false;
+                }
             });
         }
     }
