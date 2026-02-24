@@ -177,12 +177,46 @@ public class HelloController implements Initializable {
     }
 
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        String fxmlPath = url.getPath();
-        if (fxmlPath.contains("hello-view.fxml")) {
-            otvoriOdabirBrodica();
+    private final List<int[]> aiTargetQueue = new ArrayList<>();
+    private final Random rnd = new Random();
+
+    private void aiShoot() {
+        if (statusIgre.gameOver) return;
+        // tamo de jos nije pucao
+        List<int[]> available = new ArrayList<>();
+        for (int red = 0; red < 10; red++)
+            for (int kolona = 0; kolona < 10; kolona++)
+                if (statusIgre.igracTabla[red][kolona] == 0 || statusIgre.igracTabla[red][kolona] == 1)
+                    available.add(new int[]{red, kolona});
+        if (available.isEmpty()) return;
+
+        // pametnica moj mali
+        int[] choice = aiNijeRetardiran(available);
+        int r = choice[0], c = choice[1];
+        if (statusIgre.igracTabla[r][c] == 1) {
+            statusIgre.igracTabla[r][c] = 2;
+            statusIgre.igracDugmad[r][c].setStyle(BOJA_POGOTKA + BTN_BASE);
+            statusIgre.aiPogodci++;
+        } else {
+            statusIgre.igracTabla[r][c] = 3;
+            statusIgre.igracDugmad[r][c].setStyle(BOJA_PROMASAJA + BTN_BASE);
         }
+
+        if (statusIgre.aiPogodci >= statusIgre.playerShipsTotal) {
+            statusIgre.gameOver = true;
+            showResult("Izgubio si. Protivnik je potopio sve tvoje brodove.");
+            return;
+        }
+        statusIgre.igracPotez = true;
+    }
+
+    private int[] aiNijeRetardiran(List<int[]> available) {
+        // Look for cells adjacent to a hit that haven't been tried
+        for (int[] cell : available) {
+            int r = cell[0], c = cell[1];
+            if (imaPored(r, c, statusIgre.igracTabla)) return cell;
+        }
+        return available.get(rnd.nextInt(available.size()));
     }
 
     private boolean imaPored(int r, int c, int[][] board) {
@@ -195,12 +229,44 @@ public class HelloController implements Initializable {
         return false;
     }
 
-    public void stvoriBrod3(ActionEvent actionEvent) {
-    }
-    public void stvoriBrod4(ActionEvent actionEvent) {
+
+    private void checkSunkEnemy(int hitR, int hitC) {
+
+        Set<String> pregledano = new HashSet<>();
+        List<int[]> shipCells = new ArrayList<>();
+        dubinaPrvoPregledZaHitove(hitR, hitC, statusIgre.aiTabla, pregledano, shipCells);
+
+        // gleda je sve pogodjeno
+        boolean sunk = shipCells.stream().allMatch(cell ->
+                statusIgre.aiTabla[cell[0]][cell[1]] == 2);
+        if (!sunk) return;
+
+        // Mark ship cells dark and surrounding cells as miss
+        for (int[] cell : shipCells) {
+            statusIgre.aiDugmad[cell[0]][cell[1]].setStyle(BOJA_POTOPLJENO + BTN_BASE);
+            for (int deltaRed = -1; deltaRed <= 1; deltaRed++) {
+                for (int deltaKolona = -1; deltaKolona <= 1; deltaKolona++) {
+                    int noviRed = cell[0] + deltaRed, novaCelija = cell[1] + deltaKolona;
+                    if (noviRed >= 0 && noviRed < 10 && novaCelija >= 0 && novaCelija < 10 && statusIgre.aiTabla[noviRed][novaCelija] == 0) {
+                        statusIgre.aiTabla[noviRed][novaCelija] = 3;
+                        statusIgre.aiDugmad[noviRed][novaCelija].setStyle(BOJA_PROMASAJA + BTN_BASE);
+                    }
+                }
+            }
+        }
     }
 
-    public void stvoriBrod5(ActionEvent actionEvent) {
+    //all praise the indian overlords
+    private void dubinaPrvoPregledZaHitove(int red, int kolona, int[][] board, Set<String> pregledano, List<int[]> out) {
+        String key = red + "," + kolona;
+        if (red < 0 || red >= 10 || kolona < 0 || kolona >= 10 || pregledano.contains(key)) return;
+        if (board[red][kolona] != 1 && board[red][kolona] != 2) return;
+        pregledano.add(key);
+        out.add(new int[]{red, kolona});
+        dubinaPrvoPregledZaHitove(red - 1, kolona, board, pregledano, out);
+        dubinaPrvoPregledZaHitove(red + 1, kolona, board, pregledano, out);
+        dubinaPrvoPregledZaHitove(red, kolona - 1, board, pregledano, out);
+        dubinaPrvoPregledZaHitove(red, kolona + 1, board, pregledano, out);
     }
 
     public void RotirajBrodLevo(ActionEvent actionEvent) {
