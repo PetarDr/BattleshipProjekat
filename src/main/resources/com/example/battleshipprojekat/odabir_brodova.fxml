@@ -38,12 +38,12 @@
          <children>
             <ImageView fitHeight="35.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../Images/nosac.png" />
+                  <Image url="@Images/nosac.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="30.0" fitWidth="118.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../Images/bojniBrod.png" />
+                  <Image url="@Images/bojniBrod.png" />
                </image>
                <HBox.margin>
                   <Insets left="20.0" />
@@ -51,7 +51,7 @@
             </ImageView>
             <ImageView fitHeight="26.0" fitWidth="96.0" layoutX="164.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../Images/krstarica.png" />
+                  <Image url="@Images/krstarica.png" />
                </image>
                <HBox.margin>
                   <Insets left="30.0" top="2.0" />
@@ -59,7 +59,7 @@
             </ImageView>
             <ImageView fitHeight="19.0" fitWidth="63.0" layoutX="312.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../Images/patrolni.png" />
+                  <Image url="@Images/patrolni.png" />
                </image>
                <HBox.margin>
                   <Insets left="50.0" top="4.0" />
