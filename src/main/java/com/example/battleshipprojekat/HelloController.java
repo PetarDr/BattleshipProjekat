@@ -39,6 +39,26 @@ public class HelloController implements Initializable {
     private static final String BOJA_POTOPLJENO = "-fx-background-color: #880e4f;";
     private static final String BTN_BASE = "-fx-border-color: #455a64; -fx-border-radius: 4; -fx-background-radius: 4;";
 
+    private final Random rnd = new Random();
+
+    // Kada AI pogodi brod, ovde cuvamo koordinate prvog pogotka
+    private int aiPrviPogodakRed = -1;
+    private int aiPrviPogodakKol = -1;
+
+    // Trenutni smer kojim AI gadja (0=gore, 1=dole, 2=levo, 3=desno), -1 = random
+    private int aiTrenutniSmer = -1;
+
+    // Zadnje polje koje je AI gadao unutar broda (za nastavak u smeru)
+    private int aiPoslednjiPogodakRed = -1;
+    private int aiPoslednjiPogodakKol = -1;
+
+    // Lista smerova koje jos nismo probali
+    private final List<Integer> aiSmeroviZaProbati = new ArrayList<>();
+
+    // Smerovi: 0=gore, 1=dole, 2=levo, 3=desno
+    private static final int[][] DELTA = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         String path = url != null ? url.getPath() : "";
@@ -133,12 +153,12 @@ public class HelloController implements Initializable {
                 a.setTitle("Igra počinje!");
                 a.setHeaderText(null);
                 a.setContentText("Svi brodovi su postavljeni! Pucaj na plavu (gornju) mrežu protivnika.");
-                a.showAndWait();
                 if (stageZaOdabirBrodića != null) {
                     stageZaOdabirBrodića.close();
                     stageZaOdabirBrodića = null;
                     daLiSeBirajuBrodići = false;
                 }
+                a.showAndWait();
             });
         }
     }
@@ -162,7 +182,7 @@ public class HelloController implements Initializable {
 
         if (statusIgre.igracPogodci >= statusIgre.enemyShipsTotal) {
             statusIgre.gameOver = true;
-            showResult("Čestitke! Pobijedio si! 🎉");
+            showResult("Čestitke! Pobedio si!");
             return;
         }
 
@@ -178,29 +198,54 @@ public class HelloController implements Initializable {
     }
 
 
-    private final List<int[]> aiTargetQueue = new ArrayList<>();
-    private final Random rnd = new Random();
-
     private void aiShoot() {
         if (statusIgre.gameOver) return;
-        // tamo de jos nije pucao
-        List<int[]> available = new ArrayList<>();
-        for (int red = 0; red < 10; red++)
-            for (int kolona = 0; kolona < 10; kolona++)
-                if (statusIgre.igracTabla[red][kolona] == 0 || statusIgre.igracTabla[red][kolona] == 1)
-                    available.add(new int[]{red, kolona});
-        if (available.isEmpty()) return;
 
-        // pametnica moj mali
-        int[] choice = aiNijeRetardiran(available);
+        int[] choice = odaberiBrojZaAi();
         int r = choice[0], c = choice[1];
+
         if (statusIgre.igracTabla[r][c] == 1) {
+            // POGODAK
             statusIgre.igracTabla[r][c] = 2;
             statusIgre.igracDugmad[r][c].setStyle(BOJA_POGOTKA + BTN_BASE);
             statusIgre.aiPogodci++;
+
+            if (aiPrviPogodakRed == -1) {
+                // Ovo je prvi pogodak na novom brodu - udjemo u target mode
+                aiPrviPogodakRed = r;
+                aiPrviPogodakKol = c;
+                aiPoslednjiPogodakRed = r;
+                aiPoslednjiPogodakKol = c;
+                aiSmeroviZaProbati.clear();
+                List<Integer> smjerovi = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+                Collections.shuffle(smjerovi, rnd);
+                aiSmeroviZaProbati.addAll(smjerovi);
+                aiTrenutniSmer = aiSmeroviZaProbati.removeFirst();
+            } else {
+                // Nastavljamo u istom smeru
+                aiPoslednjiPogodakRed = r;
+                aiPoslednjiPogodakKol = c;
+            }
+
+            // Provjeri je li brod potopljen
+            if (checkSunkPlayer(r, c)) {
+                resetAiTargeting();
+            }
+
         } else {
+            // PROMASAJ
             statusIgre.igracTabla[r][c] = 3;
             statusIgre.igracDugmad[r][c].setStyle(BOJA_PROMASAJA + BTN_BASE);
+
+            if (aiPrviPogodakRed != -1) {
+                if (!aiSmeroviZaProbati.isEmpty()) {
+                    aiTrenutniSmer = aiSmeroviZaProbati.removeFirst();
+                } else {
+                    aiTrenutniSmer = -1;
+                }
+                aiPoslednjiPogodakRed = aiPrviPogodakRed;
+                aiPoslednjiPogodakKol = aiPrviPogodakKol;
+            }
         }
 
         if (statusIgre.aiPogodci >= statusIgre.playerShipsTotal) {
@@ -211,25 +256,87 @@ public class HelloController implements Initializable {
         statusIgre.igracPotez = true;
     }
 
-    private int[] aiNijeRetardiran(List<int[]> available) {
-        // Look for cells adjacent to a hit that haven't been tried
-        for (int[] cell : available) {
-            int r = cell[0], c = cell[1];
-            if (imaPored(r, c, statusIgre.igracTabla)) return cell;
+    /**
+     * Bira polje za AI da gadja.
+     * Ako je u target mode (zna gde je brod), gadja u trenutnom smeru od zadnjeg pogotka.
+     * Ako nema validnog polja u tom smeru, proba sledeci smer.
+     * Ako nema vise smerova, pada nazad na random.
+     */
+    private int[] odaberiBrojZaAi() {
+        if (aiPrviPogodakRed != -1 && aiTrenutniSmer != -1) {
+            int[] sledece = sledecePoljeuSmeru();
+            if (sledece != null) {
+                return sledece;
+            }
+
+            while (!aiSmeroviZaProbati.isEmpty()) {
+                aiTrenutniSmer = aiSmeroviZaProbati.removeFirst();
+                aiPoslednjiPogodakRed = aiPrviPogodakRed;
+                aiPoslednjiPogodakKol = aiPrviPogodakKol;
+                sledece = sledecePoljeuSmeru();
+                if (sledece != null) {
+                    return sledece;
+                }
+            }
+            resetAiTargeting();
         }
+        return randomPolje();
+    }
+
+    /**
+     * Vraca sljedece polje u trenutnom smeru od zadnjeg pogotka,
+     * ili null ako je to polje van table ili vec gadjano.
+     */
+    private int[] sledecePoljeuSmeru() {
+        int noviRed = aiPoslednjiPogodakRed + DELTA[aiTrenutniSmer][0];
+        int novaKolona = aiPoslednjiPogodakKol + DELTA[aiTrenutniSmer][1];
+        if (noviRed < 0 || noviRed >= 10 || novaKolona < 0 || novaKolona >= 10) return null;
+        int stanje = statusIgre.igracTabla[noviRed][novaKolona];
+        if (stanje == 2 || stanje == 3) return null; // vec gadjano
+        return new int[]{noviRed, novaKolona};
+    }
+
+    private int[] randomPolje() {
+        List<int[]> available = new ArrayList<>();
+        for (int red = 0; red < 10; red++)
+            for (int kolona = 0; kolona < 10; kolona++)
+                if (statusIgre.igracTabla[red][kolona] == 0 || statusIgre.igracTabla[red][kolona] == 1)
+                    available.add(new int[]{red, kolona});
         return available.get(rnd.nextInt(available.size()));
     }
 
-    private boolean imaPored(int r, int c, int[][] board) {
-        int[][] okolnaPolja = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-        for (int[] d : okolnaPolja) {
-            int noviRed = r + d[0], novaKolona = c + d[1];
-            if (noviRed >= 0 && noviRed < 10 && novaKolona >= 0 && novaKolona < 10 && board[noviRed][novaKolona] == 2)
-                return true;
-        }
-        return false;
+    private void resetAiTargeting() {
+        aiPrviPogodakRed = -1;
+        aiPrviPogodakKol = -1;
+        aiPoslednjiPogodakRed = -1;
+        aiPoslednjiPogodakKol = -1;
+        aiTrenutniSmer = -1;
+        aiSmeroviZaProbati.clear();
     }
 
+    private boolean checkSunkPlayer(int hitR, int hitC) {
+        Set<String> pregledano = new HashSet<>();
+        List<int[]> shipCells = new ArrayList<>();
+        dubinaPrvoPregledZaHitove(hitR, hitC, statusIgre.igracTabla, pregledano, shipCells);
+
+        boolean sunk = shipCells.stream().allMatch(cell ->
+                statusIgre.igracTabla[cell[0]][cell[1]] == 2);
+        if (!sunk) return false;
+
+        for (int[] cell : shipCells) {
+            statusIgre.igracDugmad[cell[0]][cell[1]].setStyle(BOJA_POTOPLJENO + BTN_BASE);
+            for (int deltaRed = -1; deltaRed <= 1; deltaRed++) {
+                for (int deltaKolona = -1; deltaKolona <= 1; deltaKolona++) {
+                    int noviRed = cell[0] + deltaRed, novaCelija = cell[1] + deltaKolona;
+                    if (noviRed >= 0 && noviRed < 10 && novaCelija >= 0 && novaCelija < 10 && statusIgre.igracTabla[noviRed][novaCelija] == 0) {
+                        statusIgre.igracTabla[noviRed][novaCelija] = 3;
+                        statusIgre.igracDugmad[noviRed][novaCelija].setStyle(BOJA_PROMASAJA + BTN_BASE);
+                    }
+                }
+            }
+        }
+        return true;
+    }
 
     private void checkSunkEnemy(int hitR, int hitC) {
 
@@ -237,12 +344,11 @@ public class HelloController implements Initializable {
         List<int[]> shipCells = new ArrayList<>();
         dubinaPrvoPregledZaHitove(hitR, hitC, statusIgre.aiTabla, pregledano, shipCells);
 
-        // gleda je sve pogodjeno
         boolean sunk = shipCells.stream().allMatch(cell ->
                 statusIgre.aiTabla[cell[0]][cell[1]] == 2);
         if (!sunk) return;
 
-        // Mark ship cells dark and surrounding cells as miss
+
         for (int[] cell : shipCells) {
             statusIgre.aiDugmad[cell[0]][cell[1]].setStyle(BOJA_POTOPLJENO + BTN_BASE);
             for (int deltaRed = -1; deltaRed <= 1; deltaRed++) {
@@ -316,6 +422,7 @@ public class HelloController implements Initializable {
             a.showAndWait();
 
             statusIgre.reset();
+            resetAiTargeting();
 
             for (int red = 0; red < 10; red++)
                 for (int kolona = 0; kolona < 10; kolona++) {
@@ -324,8 +431,5 @@ public class HelloController implements Initializable {
                 }
             otvoriOdabirBrodića();
         });
-    }
-
-    public void pucaj(ActionEvent event) {
     }
 }

@@ -24,7 +24,6 @@ public class GameState {
     public boolean igracPotez = true;
     public boolean gameOver     = false;
 
-    // track sunk ships for win condition
     public int playerShipsTotal = 0;
     public int enemyShipsTotal  = 0;
     public int igracPogodci = 0;
