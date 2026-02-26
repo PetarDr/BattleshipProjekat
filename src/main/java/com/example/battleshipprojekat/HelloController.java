@@ -469,13 +469,33 @@ public class HelloController implements Initializable {
             a.setContentText(msg);
             a.showAndWait();
 
+
             statusIgre.reset();
             resetAiTargeting();
 
             for (int red = 0; red < 10; red++)
                 for (int kolona = 0; kolona < 10; kolona++) {
+
+                    ImageView neprijateljskaVoda = new ImageView(new Image(
+                            getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/voda.jpg")
+                    ));
+                    neprijateljskaVoda.setFitHeight(46);
+                    neprijateljskaVoda.setFitWidth(52);
+                    neprijateljskaVoda.setOpacity(0.5);
+                    neprijateljskaVoda.setPreserveRatio(false);
+
+                    ImageView nasaVoda = new ImageView(new Image(
+                            getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/voda2.jpg")
+                    ));
+                    nasaVoda.setFitHeight(46);
+                    nasaVoda.setFitWidth(52);
+                    nasaVoda.setOpacity(0.5);
+                    nasaVoda.setPreserveRatio(false);
+
                     statusIgre.igracDugmad[red][kolona].setStyle(BOJA_NASE_VODE + BTN_BASE);
                     statusIgre.aiDugmad[red][kolona].setStyle(BOJA_NEPRIJATLJSKE_VODE + BTN_BASE);
+                    statusIgre.aiDugmad[red][kolona].setGraphic(neprijateljskaVoda);
+                    statusIgre.igracDugmad[red][kolona].setGraphic(nasaVoda);
                 }
             otvoriOdabirBrodića();
         });
