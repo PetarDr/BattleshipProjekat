@@ -1,13 +1,15 @@
 package com.example.battleshipprojekat;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -37,7 +39,8 @@ public class HelloController implements Initializable {
     private static final String BOJA_POGOTKA = "-fx-background-color: #e53935;";
     private static final String BOJA_PROMASAJA = "-fx-background-color: #eceff1;";
     private static final String BOJA_POTOPLJENO = "-fx-background-color: #880e4f;";
-    private static final String BTN_BASE = "-fx-border-color: #455a64; -fx-border-radius: 4; -fx-background-radius: 4;";
+    private static final String BTN_BASE = "-fx-border-color: #455a64; -fx-border-radius: 4; -fx-background-radius: 4;" +
+            "-fx-padding: 0 0 0 0; -fx-background-size: 100% 100%;";
 
     private final Random rnd = new Random();
 
@@ -71,10 +74,28 @@ public class HelloController implements Initializable {
 
     //e ovde vec postaje zajebano fala kurcu za indijce na yt
     private void buildGrids() {
+
+
+
         for (int r = 0; r < 10; r++) {
             for (int c = 0; c < 10; c++) {
 
-                Button aiPolja = makeBtn(BOJA_NEPRIJATLJSKE_VODE);
+                //voda voda vodica
+                ImageView neprijateljskaVoda = new ImageView(new Image(
+                        getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/voda.gif")
+                ));
+                neprijateljskaVoda.setFitHeight(46);
+                neprijateljskaVoda.setPreserveRatio(true);
+
+                ImageView nasaVoda = new ImageView(new Image(
+                        getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/voda2.gif")
+                ));
+                nasaVoda.setFitHeight(46);
+                nasaVoda.setPreserveRatio(true);
+
+                Button aiPolja = makeBtn("");
+                aiPolja.setGraphic(neprijateljskaVoda);
+                //aiPolja.setContentDisplay(ContentDisplay.CENTER);
                 final int row = r, col = c;
                 aiPolja.setOnAction(e -> handleEnemyClick(row, col, aiPolja));
                 aiPolja.setOnMouseEntered(e -> showPreviewEnemy(row, col));
@@ -83,6 +104,7 @@ public class HelloController implements Initializable {
                 statusIgre.aiDugmad[r][c] = aiPolja;
 
                 Button igracPolja = makeBtn(BOJA_NASE_VODE);
+                igracPolja.setGraphic(nasaVoda);
                 igracPolja.setOnAction(e -> handlePlayerClick(row, col));
                 igracPolja.setOnMouseEntered(e -> showPreviewPlayer(row, col));
                 igracPolja.setOnMouseExited(e -> clearPreviewPlayer());
