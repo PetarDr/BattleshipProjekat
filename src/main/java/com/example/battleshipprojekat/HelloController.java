@@ -10,7 +10,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -82,16 +85,20 @@ public class HelloController implements Initializable {
 
                 //voda voda vodica
                 ImageView neprijateljskaVoda = new ImageView(new Image(
-                        getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/voda.gif")
+                        getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/voda.jpg")
                 ));
                 neprijateljskaVoda.setFitHeight(46);
-                neprijateljskaVoda.setPreserveRatio(true);
+                neprijateljskaVoda.setFitWidth(52);
+                neprijateljskaVoda.setOpacity(0.5);
+                neprijateljskaVoda.setPreserveRatio(false);
 
                 ImageView nasaVoda = new ImageView(new Image(
-                        getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/voda2.gif")
+                        getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/voda2.jpg")
                 ));
                 nasaVoda.setFitHeight(46);
-                nasaVoda.setPreserveRatio(true);
+                nasaVoda.setFitWidth(52);
+                nasaVoda.setOpacity(0.5);
+                nasaVoda.setPreserveRatio(false);
 
                 Button aiPolja = makeBtn("");
                 aiPolja.setGraphic(neprijateljskaVoda);
@@ -346,7 +353,17 @@ public class HelloController implements Initializable {
         if (!sunk) return false;
 
         for (int[] cell : shipCells) {
-            statusIgre.igracDugmad[cell[0]][cell[1]].setStyle(BOJA_POTOPLJENO + BTN_BASE);
+            ImageView potopljen = new ImageView(new Image(
+                    getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/eksplozija.jpg")
+            ));
+            potopljen.setFitHeight(46);
+            potopljen.setFitWidth(52);
+            potopljen.setOpacity(0.5);
+            potopljen.setPreserveRatio(false);
+
+            statusIgre.igracDugmad[cell[0]][cell[1]].setStyle(BTN_BASE);
+            statusIgre.igracDugmad[cell[0]][cell[1]].setGraphic(potopljen);
+
             for (int deltaRed = -1; deltaRed <= 1; deltaRed++) {
                 for (int deltaKolona = -1; deltaKolona <= 1; deltaKolona++) {
                     int noviRed = cell[0] + deltaRed, novaCelija = cell[1] + deltaKolona;
@@ -372,7 +389,16 @@ public class HelloController implements Initializable {
 
 
         for (int[] cell : shipCells) {
-            statusIgre.aiDugmad[cell[0]][cell[1]].setStyle(BOJA_POTOPLJENO + BTN_BASE);
+            ImageView potopljen = new ImageView(new Image(
+                    getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/eksplozija.jpg")
+            ));
+            potopljen.setFitHeight(46);
+            potopljen.setFitWidth(52);
+            potopljen.setOpacity(0.5);
+            potopljen.setPreserveRatio(false);
+
+            statusIgre.aiDugmad[cell[0]][cell[1]].setStyle(BTN_BASE);
+            statusIgre.aiDugmad[cell[0]][cell[1]].setGraphic(potopljen);
             for (int deltaRed = -1; deltaRed <= 1; deltaRed++) {
                 for (int deltaKolona = -1; deltaKolona <= 1; deltaKolona++) {
                     int noviRed = cell[0] + deltaRed, novaCelija = cell[1] + deltaKolona;
