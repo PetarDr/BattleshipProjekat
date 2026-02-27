@@ -1,19 +1,17 @@
 package com.example.battleshipprojekat;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -29,6 +27,17 @@ public class HelloController implements Initializable {
     private GridPane aiGrid;
     @FXML
     private GridPane igracGrid;
+
+    @FXML
+    private Button btnBomba;
+    @FXML
+    private Button btnRadar;
+    @FXML
+    private Button btnArtiljerija;
+    @FXML
+    private Button btnMina;
+    @FXML
+    private Label lblPowerupStatus;
 
     private static boolean daLiSeBirajuBrodići = false;
     private static Stage stageZaOdabirBrodića = null; // ovo treba da se zatvori
@@ -48,6 +57,21 @@ public class HelloController implements Initializable {
     private static Image slika_voda = null;
     private static Image slika_voda2 = null;
     private static Image slika_eksplozija = null;
+
+    // Tip aktivnog powerupa (null = normalno gadjanje)
+    private String aktivniPowerup = null;
+
+    // pocinje se bez powerupa - dobijaju se potapanjem neprijateljevih brodova
+    private int brojBombi = 0;
+    private int brojRadara = 0;
+    private int brojArtiljerije = 0;
+    private int brojMina = 0;
+
+    private int aiBrojBombi = 0;
+    private int aiBrojRadara = 0;
+    private int aiBrojArtiljerije = 0;
+    private int aiBrojMina = 0;
+
     private final Random rnd = new Random();
 
     // Kada AI pogodi brod, ovde cuvamo koordinate prvog pogotka
@@ -313,6 +337,13 @@ public class HelloController implements Initializable {
 
     //onaj kurac za stavljane brodova
     private void handlePlayerClick(int row, int col) {
+        if (aktivniPowerup != null && aktivniPowerup.equals("MINA") && !statusIgre.vremeStavljanja) {
+            if (statusIgre.igracTabla[row][col] == 0) {
+                izvrsiPowerup(row, col);
+            }
+            return;
+        }
+
         if (!statusIgre.vremeStavljanja) return;
         if (statusIgre.selectedShipSize == 0) return;
         if (!statusIgre.canPlace(row, col, statusIgre.selectedShipSize, statusIgre.pravac, statusIgre.igracTabla))
@@ -339,7 +370,7 @@ public class HelloController implements Initializable {
                 Alert a = new Alert(Alert.AlertType.INFORMATION);
                 a.setTitle("Igra počinje!");
                 a.setHeaderText(null);
-                a.setContentText("Svi brodovi su postavljeni! Pucaj na plavu (gornju) mrežu protivnika.");
+                a.setContentText("Svi brodovi su postavljeni! Pucaj na svetloplavu (gornju) mrežu protivnika.");
                 if (stageZaOdabirBrodića != null) {
                     stageZaOdabirBrodića.close();
                     stageZaOdabirBrodića = null;
@@ -353,6 +384,27 @@ public class HelloController implements Initializable {
     //gadjanje na njihovu stranu
     private void handleEnemyClick(int row, int col, Button btn) {
         if (statusIgre.vremeStavljanja || statusIgre.gameOver || !statusIgre.igracPotez) return;
+        if (aktivniPowerup != null && !aktivniPowerup.equals("MINA")) {
+            // RADAR i ARTILJERIJA ne zavrsavaju igracov potez, BOMBA ga zavrsava
+            boolean zavrsiPotez = aktivniPowerup.equals("BOMBA") || aktivniPowerup.equals("ARTILJERIJA");
+            izvrsiPowerup(row, col);
+            clearPreviewEnemy();
+
+            if (statusIgre.igracPogodci >= statusIgre.enemyShipsTotal) {
+                statusIgre.gameOver = true;
+                showResult("Čestitke! Pobedio si!");
+                return;
+            }
+            if (zavrsiPotez) {
+                statusIgre.igracPotez = false;
+                new Thread(() -> {
+                    try { Thread.sleep(600); } catch (InterruptedException ignored) {}
+                    Platform.runLater(this::aiShoot);
+                }).start();
+            }
+            return;
+        }
+
         int status = statusIgre.aiTabla[row][col];
         if (status == 2 || status == 3) return;
         // 0=prazan, 1=brod, 2=pogodak, 3=masi
@@ -369,7 +421,7 @@ public class HelloController implements Initializable {
 
         if (statusIgre.igracPogodci >= statusIgre.enemyShipsTotal) {
             statusIgre.gameOver = true;
-            showResult("Čestitke! Pobedio si!");
+            showResult("Cestitke! Pobedio si!");
             return;
         }
 
@@ -387,42 +439,61 @@ public class HelloController implements Initializable {
 
     private void aiShoot() {
         if (statusIgre.gameOver) return;
+        // AI odlucuje da li ce iskoristiti powerup (ako ih ima i nije u target mode)
+        // U target mode AI ne trosi powerupe - fokusiran je na vec pogodjen brod
+        if (aiPrviPogodakRed == -1) {
+            String aiPowerup = odaberiAiPowerup();
+            if (aiPowerup != null) {
+                izvrsiAiPowerup(aiPowerup);
+                if (statusIgre.aiPogodci >= statusIgre.playerShipsTotal) {
+                    statusIgre.gameOver = true;
+                    showResult("Izgubio si. Protivnik je potopio sve tvoje brodove.");
+                    return;
+                }
+                statusIgre.igracPotez = true;
+                return;
+            }
+        }
 
         int[] choice = odaberiBrojZaAi();
-        int r = choice[0], c = choice[1];
+        int red = choice[0], kolona = choice[1];
 
-        if (statusIgre.igracTabla[r][c] == 1) {
-            // POGODAK
-            statusIgre.igracTabla[r][c] = 2;
-            statusIgre.igracDugmad[r][c].setStyle(BOJA_POGOTKA + BTN_BASE);
+        if (statusIgre.igracTabla[red][kolona] == 1 || statusIgre.igracTabla[red][kolona] == 4) {
+            boolean bilaMina = statusIgre.igracTabla[red][kolona] == 4;
+            statusIgre.igracTabla[red][kolona] = 2;
+            statusIgre.igracDugmad[red][kolona].setStyle(BOJA_POGOTKA + BTN_BASE);
             statusIgre.aiPogodci++;
 
+            if (bilaMina) {
+                if (lblPowerupStatus != null)
+                    lblPowerupStatus.setText("Mina je eksplodirala! AI preskace sledeci potez.");
+                statusIgre.igracPotez = true;
+                return;
+            }
+
             if (aiPrviPogodakRed == -1) {
-                // Ovo je prvi pogodak na novom brodu - udjemo u target mode
-                aiPrviPogodakRed = r;
-                aiPrviPogodakKol = c;
-                aiPoslednjiPogodakRed = r;
-                aiPoslednjiPogodakKol = c;
+                aiPrviPogodakRed = red;
+                aiPrviPogodakKol = kolona;
+                aiPoslednjiPogodakRed = red;
+                aiPoslednjiPogodakKol = kolona;
                 aiSmeroviZaProbati.clear();
                 List<Integer> smjerovi = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
                 Collections.shuffle(smjerovi, rnd);
                 aiSmeroviZaProbati.addAll(smjerovi);
                 aiTrenutniSmer = aiSmeroviZaProbati.removeFirst();
             } else {
-                // Nastavljamo u istom smeru
-                aiPoslednjiPogodakRed = r;
-                aiPoslednjiPogodakKol = c;
+                aiPoslednjiPogodakRed = red;
+                aiPoslednjiPogodakKol = kolona;
             }
 
-            // Provjeri je li brod potopljen
-            if (checkSunkPlayer(r, c)) {
+            if (checkSunkPlayer(red, kolona)) {
                 resetAiTargeting();
             }
 
         } else {
             // PROMASAJ
-            statusIgre.igracTabla[r][c] = 3;
-            statusIgre.igracDugmad[r][c].setStyle(BOJA_PROMASAJA + BTN_BASE);
+            statusIgre.igracTabla[red][kolona] = 3;
+            statusIgre.igracDugmad[red][kolona].setStyle(BOJA_PROMASAJA + BTN_BASE);
 
             if (aiPrviPogodakRed != -1) {
                 if (!aiSmeroviZaProbati.isEmpty()) {
@@ -441,6 +512,96 @@ public class HelloController implements Initializable {
             return;
         }
         statusIgre.igracPotez = true;
+    }
+
+    // Odabira koji powerup ce AI koristiti - 40% sansa da uopste iskoristi powerup
+    // Vraca naziv powerupa ili null ako AI odluci da puca normalno
+    private String odaberiAiPowerup() {
+        int ukupnoPowerupa = aiBrojBombi + aiBrojRadara + aiBrojArtiljerije + aiBrojMina;
+        if (ukupnoPowerupa == 0) return null;
+
+        if (rnd.nextInt(100) >= 40) return null;
+
+        List<String> dostupni = new ArrayList<>();
+        if (aiBrojBombi > 0)       dostupni.add("AI_BOMBA");
+        if (aiBrojRadara > 0)      dostupni.add("AI_RADAR");
+        if (aiBrojArtiljerije > 0) dostupni.add("AI_ARTILJERIJA");
+        if (aiBrojMina > 0)        dostupni.add("AI_MINA");
+
+        return dostupni.get(rnd.nextInt(dostupni.size()));
+    }
+
+    private void izvrsiAiPowerup(String powerup) {
+        switch (powerup) {
+            case "AI_BOMBA" -> {
+                aiBrojBombi--;
+                int centerR = rnd.nextInt(10);
+                int centerC = rnd.nextInt(10);
+                for (int deltaRed = -1; deltaRed <= 1; deltaRed++) {
+                    for (int deltaKolona = -1; deltaKolona <= 1; deltaKolona++) {
+                        int red = centerR + deltaRed, kolona = centerC + deltaKolona;
+                        if (red < 0 || red >= 10 || kolona < 0 || kolona >= 10) continue;
+                        int st = statusIgre.igracTabla[red][kolona];
+                        if (st == 2 || st == 3) continue;
+                        if (st == 1 || st == 4) {
+                            statusIgre.igracTabla[red][kolona] = 2;
+                            statusIgre.igracDugmad[red][kolona].setStyle(BOJA_POGOTKA + BTN_BASE);
+                            statusIgre.aiPogodci++;
+                            if (checkSunkPlayer(red, kolona)) resetAiTargeting();
+                        } else {
+                            statusIgre.igracTabla[red][kolona] = 3;
+                            statusIgre.igracDugmad[red][kolona].setStyle(BOJA_PROMASAJA + BTN_BASE);
+                        }
+                    }
+                }
+            }
+            case "AI_RADAR" -> {
+                aiBrojRadara--;
+                int[] polje = randomPolje();
+                int red = polje[0], kolona = polje[1];
+                if (statusIgre.igracTabla[red][kolona] == 1 || statusIgre.igracTabla[red][kolona] == 4) {
+                    statusIgre.igracTabla[red][kolona] = 2;
+                    statusIgre.igracDugmad[red][kolona].setStyle(BOJA_POGOTKA + BTN_BASE);
+                    statusIgre.aiPogodci++;
+                    if (checkSunkPlayer(red, kolona)) resetAiTargeting();
+                } else {
+                    statusIgre.igracTabla[red][kolona] = 3;
+                    statusIgre.igracDugmad[red][kolona].setStyle(BOJA_PROMASAJA + BTN_BASE);
+                }
+            }
+            case "AI_ARTILJERIJA" -> {
+                aiBrojArtiljerije--;
+                int kolona = rnd.nextInt(10);
+                for (int red = 0; red < 10; red++) {
+                    int st = statusIgre.igracTabla[red][kolona];
+                    if (st == 2 || st == 3) continue;
+                    if (st == 1 || st == 4) {
+                        statusIgre.igracTabla[red][kolona] = 2;
+                        statusIgre.igracDugmad[red][kolona].setStyle(BOJA_POGOTKA + BTN_BASE);
+                        statusIgre.aiPogodci++;
+                        if (checkSunkPlayer(red, kolona)) resetAiTargeting();
+                    } else {
+                        statusIgre.igracTabla[red][kolona] = 3;
+                        statusIgre.igracDugmad[red][kolona].setStyle(BOJA_PROMASAJA + BTN_BASE);
+                    }
+                }
+            }
+            case "AI_MINA" -> {
+                /*
+                mina se odmah aktivira kao skriveni pogodak na random polju
+                */
+                aiBrojMina--;
+                List<int[]> slobodna = new ArrayList<>();
+                for (int red = 0; red < 10; red++)
+                    for (int kolona = 0; kolona < 10; kolona++)
+                        if (statusIgre.igracTabla[red][kolona] == 0)
+                            slobodna.add(new int[]{red, kolona});
+                if (!slobodna.isEmpty()) {
+                    int[] mina = slobodna.get(rnd.nextInt(slobodna.size()));
+                    statusIgre.igracTabla[mina[0]][mina[1]] = 4;
+                }
+            }
+        }
     }
 
     /**
@@ -480,15 +641,19 @@ public class HelloController implements Initializable {
         if (noviRed < 0 || noviRed >= 10 || novaKolona < 0 || novaKolona >= 10) return null;
         int stanje = statusIgre.igracTabla[noviRed][novaKolona];
         if (stanje == 2 || stanje == 3) return null; // vec gadjano
+        // 0=prazno, 1=brod, 4=mina
         return new int[]{noviRed, novaKolona};
     }
 
     private int[] randomPolje() {
         List<int[]> available = new ArrayList<>();
         for (int red = 0; red < 10; red++)
-            for (int kolona = 0; kolona < 10; kolona++)
-                if (statusIgre.igracTabla[red][kolona] == 0 || statusIgre.igracTabla[red][kolona] == 1)
+            for (int kolona = 0; kolona < 10; kolona++) {
+                int v = statusIgre.igracTabla[red][kolona];
+                // 0=prazno, 1=brod, 4=mina
+                if (v == 0 || v == 1 || v == 4)
                     available.add(new int[]{red, kolona});
+            }
         return available.get(rnd.nextInt(available.size()));
     }
 
@@ -511,16 +676,8 @@ public class HelloController implements Initializable {
         if (!sunk) return false;
 
         for (int[] cell : shipCells) {
-            ImageView potopljen = new ImageView(new Image(
-                    getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/eksplozija.jpg")
-            ));
-            potopljen.setFitHeight(36);
-            potopljen.setFitWidth(52);
-            potopljen.setOpacity(0.5);
-            potopljen.setPreserveRatio(false);
-
             statusIgre.igracDugmad[cell[0]][cell[1]].setStyle(BTN_BASE);
-            statusIgre.igracDugmad[cell[0]][cell[1]].setGraphic(potopljen);
+            statusIgre.igracDugmad[cell[0]][cell[1]].setGraphic(napraviEksplozijuView());
 
             for (int deltaRed = -1; deltaRed <= 1; deltaRed++) {
                 for (int deltaKolona = -1; deltaKolona <= 1; deltaKolona++) {
@@ -532,7 +689,18 @@ public class HelloController implements Initializable {
                 }
             }
         }
+        nagradiAiPowerupom();
         return true;
+    }
+
+    private void nagradiAiPowerupom() {
+        int izbor = rnd.nextInt(4);
+        switch (izbor) {
+            case 0 -> aiBrojBombi++;
+            case 1 -> aiBrojRadara++;
+            case 2 -> aiBrojArtiljerije++;
+            default -> aiBrojMina++;
+        }
     }
 
     private void checkSunkEnemy(int hitR, int hitC) {
@@ -545,18 +713,9 @@ public class HelloController implements Initializable {
                 statusIgre.aiTabla[cell[0]][cell[1]] == 2);
         if (!sunk) return;
 
-
         for (int[] cell : shipCells) {
-            ImageView potopljen = new ImageView(new Image(
-                    getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/eksplozija.jpg")
-            ));
-            potopljen.setFitHeight(36);
-            potopljen.setFitWidth(52);
-            potopljen.setOpacity(0.5);
-            potopljen.setPreserveRatio(false);
-
             statusIgre.aiDugmad[cell[0]][cell[1]].setStyle(BTN_BASE);
-            statusIgre.aiDugmad[cell[0]][cell[1]].setGraphic(potopljen);
+            statusIgre.aiDugmad[cell[0]][cell[1]].setGraphic(napraviEksplozijuView());
             for (int deltaRed = -1; deltaRed <= 1; deltaRed++) {
                 for (int deltaKolona = -1; deltaKolona <= 1; deltaKolona++) {
                     int noviRed = cell[0] + deltaRed, novaCelija = cell[1] + deltaKolona;
@@ -567,13 +726,31 @@ public class HelloController implements Initializable {
                 }
             }
         }
+        nagradiIgracaPowerupom();
+    }
+
+    private void nagradiIgracaPowerupom() {
+        // Svi powerupi su jednako verovatni i to bi mozda trebalo da promenimo
+        int izbor = rnd.nextInt(4);
+        String naziv;
+        switch (izbor) {
+            case 0 -> { brojBombi++;      naziv = "Bomba"; }
+            case 1 -> { brojRadara++;     naziv = "Radar"; }
+            case 2 -> { brojArtiljerije++;naziv = "Artiljerija"; }
+            default-> { brojMina++;       naziv = "Mina"; }
+        }
+        osveziBrojacePowerupa();
+        if (lblPowerupStatus != null) {
+            lblPowerupStatus.setText("Dobio si powerup: " + naziv + "!");
+        }
     }
 
     //all praise the indian overlords
     private void dubinaPrvoPregledZaHitove(int red, int kolona, int[][] board, Set<String> pregledano, List<int[]> out) {
         String key = red + "," + kolona;
         if (red < 0 || red >= 10 || kolona < 0 || kolona >= 10 || pregledano.contains(key)) return;
-        if (board[red][kolona] != 1 && board[red][kolona] != 2) return;
+        // 1=brod, 2=pogodjen, 4=mina
+        if (board[red][kolona] != 1 && board[red][kolona] != 2 && board[red][kolona] != 4) return;
         pregledano.add(key);
         out.add(new int[]{red, kolona});
         dubinaPrvoPregledZaHitove(red - 1, kolona, board, pregledano, out);
@@ -632,26 +809,13 @@ public class HelloController implements Initializable {
 
             statusIgre.reset();
             resetAiTargeting();
+            aktivniPowerup = null;
+            brojBombi = 0; brojRadara = 0; brojArtiljerije = 0; brojMina = 0;
+            aiBrojBombi = 0; aiBrojRadara = 0; aiBrojArtiljerije = 0; aiBrojMina = 0;
+            osveziBrojacePowerupa();
 
             for (int red = 0; red < 10; red++)
                 for (int kolona = 0; kolona < 10; kolona++) {
-
-                    ImageView neprijateljskaVoda = new ImageView(new Image(
-                            getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/voda.jpg")
-                    ));
-                    neprijateljskaVoda.setFitHeight(46);
-                    neprijateljskaVoda.setFitWidth(52);
-                    neprijateljskaVoda.setOpacity(0.5);
-                    neprijateljskaVoda.setPreserveRatio(false);
-
-                    ImageView nasaVoda = new ImageView(new Image(
-                            getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/voda2.jpg")
-                    ));
-                    nasaVoda.setFitHeight(46);
-                    nasaVoda.setFitWidth(52);
-                    nasaVoda.setOpacity(0.5);
-                    nasaVoda.setPreserveRatio(false);
-
                     statusIgre.igracDugmad[red][kolona].setStyle(BOJA_NASE_VODE + BTN_BASE);
                     statusIgre.aiDugmad[red][kolona].setStyle(BOJA_NEPRIJATLJSKE_VODE + BTN_BASE);
                     statusIgre.aiDugmad[red][kolona].setGraphic(napraviVodaView());
