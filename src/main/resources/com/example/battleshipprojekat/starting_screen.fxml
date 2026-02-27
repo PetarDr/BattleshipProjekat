@@ -19,12 +19,12 @@
             <Font name="Gill Sans Ultra Bold" size="29.0" />
          </font>
       </Text>
-      <Button layoutX="298.0" layoutY="202.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="117.0" text="Započni igru">
+      <Button layoutX="298.0" layoutY="202.0" mnemonicParsing="false" onAction="#start" prefHeight="51.0" prefWidth="117.0" text="Započni igru">
          <font>
             <Font name="Impact" size="15.0" />
          </font>
       </Button>
-      <Button layoutX="298.0" layoutY="296.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="117.0" text="Napusti igru">
+      <Button fx:id="closeBtn" layoutX="298.0" layoutY="296.0" mnemonicParsing="false" onAction="#napusti" prefHeight="51.0" prefWidth="117.0" text="Napusti igru">
          <font>
             <Font name="Impact" size="15.0" />
          </font>
