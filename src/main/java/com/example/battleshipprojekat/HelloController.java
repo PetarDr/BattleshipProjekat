@@ -45,6 +45,9 @@ public class HelloController implements Initializable {
     private static final String BTN_BASE = "-fx-border-color: #455a64; -fx-border-radius: 4; -fx-background-radius: 4;" +
             "-fx-padding: 0 0 0 0; -fx-background-size: 100% 100%;";
 
+    private static Image slika_voda = null;
+    private static Image slika_voda2 = null;
+    private static Image slika_eksplozija = null;
     private final Random rnd = new Random();
 
     // Kada AI pogodi brod, ovde cuvamo koordinate prvog pogotka
@@ -69,54 +72,208 @@ public class HelloController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         String path = url != null ? url.getPath() : "";
         if (path.contains("hello-view.fxml")) {
+            ucitajSlikeAkoNisuUcitane();
             buildGrids();
             otvoriOdabirBrodića();
+            osveziBrojacePowerupa();
         }
+    }
+
+    private void ucitajSlikeAkoNisuUcitane() {
+        if (slika_voda == null) {
+            slika_voda = new Image(
+                    getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/voda.jpg")
+            );
+        }
+        if (slika_voda2 == null) {
+            slika_voda2 = new Image(
+                    getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/voda2.jpg")
+            );
+        }
+        if (slika_eksplozija == null) {
+            slika_eksplozija = new Image(
+                    getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/eksplozija.jpg")
+            );
+        }
+    }
+
+    private ImageView napraviVodaView() {
+        ImageView iv = new ImageView(slika_voda);
+        iv.setFitHeight(36); iv.setFitWidth(52);
+        iv.setOpacity(0.5); iv.setPreserveRatio(false);
+        return iv;
+    }
+
+    private ImageView napraviVoda2View() {
+        ImageView iv = new ImageView(slika_voda2);
+        iv.setFitHeight(36); iv.setFitWidth(52);
+        iv.setOpacity(0.5); iv.setPreserveRatio(false);
+        return iv;
+    }
+
+    private ImageView napraviEksplozijuView() {
+        ImageView iv = new ImageView(slika_eksplozija);
+        iv.setFitHeight(36); iv.setFitWidth(52);
+        iv.setOpacity(0.5); iv.setPreserveRatio(false);
+        return iv;
+    }
+
+    // Bomba: gadja 3x3 oblast oko izabranog polja
+    @FXML
+    private void aktivirajBombu() {
+        if (brojBombi <= 0 || statusIgre.vremeStavljanja || statusIgre.gameOver || !statusIgre.igracPotez) return;
+        aktivniPowerup = aktivniPowerup != null && aktivniPowerup.equals("BOMBA") ? null : "BOMBA";
+        osveziBrojacePowerupa();
+    }
+
+    // Radar: otkriva 2x2 oblast na neprijateljevoj tabli bez gadjanja
+    @FXML
+    private void aktivirajRadar() {
+        if (brojRadara <= 0 || statusIgre.vremeStavljanja || statusIgre.gameOver || !statusIgre.igracPotez) return;
+        aktivniPowerup = aktivniPowerup != null && aktivniPowerup.equals("RADAR") ? null : "RADAR";
+        osveziBrojacePowerupa();
+    }
+
+    // Artiljerija: gadja celu kolonu
+    @FXML
+    private void aktivirajArtiljeriju() {
+        if (brojArtiljerije <= 0 || statusIgre.vremeStavljanja || statusIgre.gameOver || !statusIgre.igracPotez) return;
+        aktivniPowerup = aktivniPowerup != null && aktivniPowerup.equals("ARTILJERIJA") ? null : "ARTILJERIJA";
+        osveziBrojacePowerupa();
+    }
+
+    // Mina: postavlja skrivenu minu na nasoj tabli koja ce osatetiti AI kada pogodi to polje
+    @FXML
+    private void aktivirajMinu() {
+        if (brojMina <= 0 || statusIgre.vremeStavljanja || statusIgre.gameOver || !statusIgre.igracPotez) return;
+        aktivniPowerup = aktivniPowerup != null && aktivniPowerup.equals("MINA") ? null : "MINA";
+        osveziBrojacePowerupa();
+    }
+
+    private void osveziBrojacePowerupa() {
+        if (btnBomba != null) {
+            btnBomba.setText("Bomba (" + brojBombi + ")");
+            btnBomba.setStyle(aktivniPowerup != null && aktivniPowerup.equals("BOMBA")
+                    ? "-fx-background-color: #ff9800; -fx-font-weight: bold;" : "");
+        }
+        if (btnRadar != null) {
+            btnRadar.setText("Radar (" + brojRadara + ")");
+            btnRadar.setStyle(aktivniPowerup != null && aktivniPowerup.equals("RADAR")
+                    ? "-fx-background-color: #ff9800; -fx-font-weight: bold;" : "");
+        }
+        if (btnArtiljerija != null) {
+            btnArtiljerija.setText("Artiljerija (" + brojArtiljerije + ")");
+            btnArtiljerija.setStyle(aktivniPowerup != null && aktivniPowerup.equals("ARTILJERIJA")
+                    ? "-fx-background-color: #ff9800; -fx-font-weight: bold;" : "");
+        }
+        if (btnMina != null) {
+            btnMina.setText("Mina (" + brojMina + ")");
+            btnMina.setStyle(aktivniPowerup != null && aktivniPowerup.equals("MINA")
+                    ? "-fx-background-color: #ff9800; -fx-font-weight: bold;" : "");
+        }
+        if (lblPowerupStatus != null) {
+            lblPowerupStatus.setText(aktivniPowerup != null
+                    ? "Aktivan powerup: " + aktivniPowerup + " — klikni na neprijateljevu mrezu!"
+                    : "");
+        }
+    }
+
+    private boolean izvrsiPowerup(int row, int col) {
+        if (aktivniPowerup == null) return false;
+        switch (aktivniPowerup) {
+            case "BOMBA" -> {
+                brojBombi--;
+                for (int deltaRed = -1; deltaRed <= 1; deltaRed++) {
+                    for (int deltaKolona = -1; deltaKolona <= 1; deltaKolona++) {
+                        int red = row + deltaRed, kolona = col + deltaKolona;
+                        if (red < 0 || red >= 10 || kolona < 0 || kolona >= 10) continue;
+                        int st = statusIgre.aiTabla[red][kolona];
+                        if (st == 2 || st == 3) continue;
+                        if (st == 1) {
+                            statusIgre.aiTabla[red][kolona] = 2;
+                            statusIgre.aiDugmad[red][kolona].setStyle(BOJA_POGOTKA + BTN_BASE);
+                            statusIgre.igracPogodci++;
+                            checkSunkEnemy(red, kolona);
+                        } else {
+                            statusIgre.aiTabla[red][kolona] = 3;
+                            statusIgre.aiDugmad[red][kolona].setStyle(BOJA_PROMASAJA + BTN_BASE);
+                        }
+                    }
+                }
+            }
+            case "RADAR" -> {
+                brojRadara--;
+                for (int deltaRed = 0; deltaRed <= 1; deltaRed++) {
+                    for (int deltaKolona = 0; deltaKolona <= 1; deltaKolona++) {
+                        int red = row + deltaRed, kolona = col + deltaKolona;
+                        if (red < 0 || red >= 10 || kolona < 0 || kolona >= 10) continue;
+                        if (statusIgre.aiTabla[red][kolona] == 1) {
+                            statusIgre.aiDugmad[red][kolona].setStyle("-fx-background-color: #66bb6a;" + BTN_BASE);
+                        }
+                    }
+                }
+                new Thread(() -> {
+                    try { Thread.sleep(1500); } catch (InterruptedException ignored) {}
+                    Platform.runLater(() -> {
+                        clearPreviewEnemy();
+                        osveziBrojacePowerupa();
+                    });
+                }).start();
+            }
+            case "ARTILJERIJA" -> {
+                brojArtiljerije--;
+                for (int red = 0; red < 10; red++) {
+                    int st = statusIgre.aiTabla[red][col];
+                    if (st == 2 || st == 3) continue;
+                    if (st == 1) {
+                        statusIgre.aiTabla[red][col] = 2;
+                        statusIgre.aiDugmad[red][col].setStyle(BOJA_POGOTKA + BTN_BASE);
+                        statusIgre.igracPogodci++;
+                        checkSunkEnemy(red, col);
+                    } else {
+                        statusIgre.aiTabla[red][col] = 3;
+                        statusIgre.aiDugmad[red][col].setStyle(BOJA_PROMASAJA + BTN_BASE);
+                    }
+                }
+            }
+            case "MINA" -> {
+                // Ovde samo deaktivujemo - mina se postavlja u handlePlayerClick
+                brojMina--;
+                // Oznacimo polje kao minu (vrednost 4 = mina)
+                if (statusIgre.igracTabla[row][col] == 0) {
+                    statusIgre.igracTabla[row][col] = 4;
+                    statusIgre.igracDugmad[row][col].setStyle("-fx-background-color: #ff5722;" + BTN_BASE);
+                }
+            }
+        }
+
+        aktivniPowerup = null;
+        osveziBrojacePowerupa();
+        return true;
     }
 
 
     //e ovde vec postaje zajebano fala kurcu za indijce na yt
     private void buildGrids() {
 
-
-
-        for (int r = 0; r < 10; r++) {
-            for (int c = 0; c < 10; c++) {
-
-                //voda voda vodica
-                ImageView neprijateljskaVoda = new ImageView(new Image(
-                        getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/voda.jpg")
-                ));
-                neprijateljskaVoda.setFitHeight(36);
-                neprijateljskaVoda.setFitWidth(52);
-                neprijateljskaVoda.setOpacity(0.5);
-                neprijateljskaVoda.setPreserveRatio(false);
-
-                ImageView nasaVoda = new ImageView(new Image(
-                        getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/voda2.jpg")
-                ));
-                nasaVoda.setFitHeight(36);
-                nasaVoda.setFitWidth(52);
-                nasaVoda.setOpacity(0.5);
-                nasaVoda.setPreserveRatio(false);
-
+        for (int red = 0; red < 10; red++) {
+            for (int kolona = 0; kolona < 10; kolona++) {
                 Button aiPolja = makeBtn("");
-                aiPolja.setGraphic(neprijateljskaVoda);
-                //aiPolja.setContentDisplay(ContentDisplay.CENTER);
-                final int row = r, col = c;
+                aiPolja.setGraphic(napraviVodaView());
+                final int row = red, col = kolona;
                 aiPolja.setOnAction(e -> handleEnemyClick(row, col, aiPolja));
                 aiPolja.setOnMouseEntered(e -> showPreviewEnemy(row, col));
                 aiPolja.setOnMouseExited(e -> clearPreviewEnemy());
-                aiGrid.add(aiPolja, c, r);
-                statusIgre.aiDugmad[r][c] = aiPolja;
+                aiGrid.add(aiPolja, kolona, red);
+                statusIgre.aiDugmad[red][kolona] = aiPolja;
 
                 Button igracPolja = makeBtn(BOJA_NASE_VODE);
-                igracPolja.setGraphic(nasaVoda);
+                igracPolja.setGraphic(napraviVoda2View());
                 igracPolja.setOnAction(e -> handlePlayerClick(row, col));
                 igracPolja.setOnMouseEntered(e -> showPreviewPlayer(row, col));
                 igracPolja.setOnMouseExited(e -> clearPreviewPlayer());
-                igracGrid.add(igracPolja, c, r);
-                statusIgre.igracDugmad[r][c] = igracPolja;
+                igracGrid.add(igracPolja, kolona, red);
+                statusIgre.igracDugmad[red][kolona] = igracPolja;
             }
         }
     }
@@ -497,8 +654,8 @@ public class HelloController implements Initializable {
 
                     statusIgre.igracDugmad[red][kolona].setStyle(BOJA_NASE_VODE + BTN_BASE);
                     statusIgre.aiDugmad[red][kolona].setStyle(BOJA_NEPRIJATLJSKE_VODE + BTN_BASE);
-                    statusIgre.aiDugmad[red][kolona].setGraphic(neprijateljskaVoda);
-                    statusIgre.igracDugmad[red][kolona].setGraphic(nasaVoda);
+                    statusIgre.aiDugmad[red][kolona].setGraphic(napraviVodaView());
+                    statusIgre.igracDugmad[red][kolona].setGraphic(napraviVoda2View());
                 }
             otvoriOdabirBrodića();
         });
