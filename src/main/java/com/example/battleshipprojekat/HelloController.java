@@ -821,7 +821,23 @@ public class HelloController implements Initializable {
                     statusIgre.aiDugmad[red][kolona].setGraphic(napraviVodaView());
                     statusIgre.igracDugmad[red][kolona].setGraphic(napraviVoda2View());
                 }
-            otvoriOdabirBrodića();
+            try {
+                otvoriStatistiku();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
+    }
+
+    public void otvoriStatistiku() throws IOException {
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("statistika.fxml"));
+        Scene scene = new Scene(loader.load(), 600, 400);
+        Stage stage = new Stage();
+        stage.setTitle("Statistika igre");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setX(520);
+        stage.setY(220);
+        stage.show();
     }
 }

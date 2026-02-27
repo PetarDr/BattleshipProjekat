@@ -7,21 +7,21 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class StartingController implements Initializable {
-    public Button closeBtn;
+public class StatistikaController implements Initializable {
+    public Label label1;
+    public Label label2;
+    public Label label3;
+    public Label label4;
+    public Label label5;
+    public Button btnClose;
 
-    //ovo zatvara stari i otvara novi stage radi mislim
-    public void start(ActionEvent event) throws IOException {
-
+    public void start(ActionEvent event) {
         try{
             Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
             Scene scene = new Scene(root);
@@ -39,20 +39,13 @@ public class StartingController implements Initializable {
         }
     }
 
-    //samo close button
     public void napusti(ActionEvent event) {
-        Stage stage = (Stage) closeBtn.getScene().getWindow();
+        Stage stage = (Stage) btnClose.getScene().getWindow();
         stage.close();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Media media;
-        MediaPlayer mediaPlayer;
 
-        //ubaci audio
-//        media = new Media(new File("").toURI().toString());
-//        mediaPlayer = new MediaPlayer(media);
-//        mediaPlayer.play();
     }
 }
