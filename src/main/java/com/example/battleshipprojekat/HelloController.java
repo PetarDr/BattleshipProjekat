@@ -87,7 +87,7 @@ public class HelloController implements Initializable {
                 ImageView neprijateljskaVoda = new ImageView(new Image(
                         getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/voda.jpg")
                 ));
-                neprijateljskaVoda.setFitHeight(46);
+                neprijateljskaVoda.setFitHeight(36);
                 neprijateljskaVoda.setFitWidth(52);
                 neprijateljskaVoda.setOpacity(0.5);
                 neprijateljskaVoda.setPreserveRatio(false);
@@ -95,7 +95,7 @@ public class HelloController implements Initializable {
                 ImageView nasaVoda = new ImageView(new Image(
                         getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/voda2.jpg")
                 ));
-                nasaVoda.setFitHeight(46);
+                nasaVoda.setFitHeight(36);
                 nasaVoda.setFitWidth(52);
                 nasaVoda.setOpacity(0.5);
                 nasaVoda.setPreserveRatio(false);
@@ -123,7 +123,7 @@ public class HelloController implements Initializable {
 
     private Button makeBtn(String color) {
         Button b = new Button();
-        b.setPrefSize(52, 46);
+        b.setPrefSize(54, 46);
         b.setStyle(color + BTN_BASE);
         return b;
     }
@@ -165,6 +165,7 @@ public class HelloController implements Initializable {
 
         for (int[] cell : statusIgre.shipCells(row, col, statusIgre.selectedShipSize, statusIgre.pravac)) {
             statusIgre.igracDugmad[cell[0]][cell[1]].setStyle(BOJA_BRODA + BTN_BASE);
+            statusIgre.igracDugmad[cell[0]][cell[1]].setGraphic(null);
         }
 
         int remaining = statusIgre.brodoviKojiTrebajuBivatiPostavljeni.getOrDefault(statusIgre.selectedShipSize, 0);
@@ -356,7 +357,7 @@ public class HelloController implements Initializable {
             ImageView potopljen = new ImageView(new Image(
                     getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/eksplozija.jpg")
             ));
-            potopljen.setFitHeight(46);
+            potopljen.setFitHeight(36);
             potopljen.setFitWidth(52);
             potopljen.setOpacity(0.5);
             potopljen.setPreserveRatio(false);
@@ -392,7 +393,7 @@ public class HelloController implements Initializable {
             ImageView potopljen = new ImageView(new Image(
                     getClass().getResourceAsStream("/com/example/battleshipprojekat/Images/eksplozija.jpg")
             ));
-            potopljen.setFitHeight(46);
+            potopljen.setFitHeight(36);
             potopljen.setFitWidth(52);
             potopljen.setOpacity(0.5);
             potopljen.setPreserveRatio(false);
@@ -441,8 +442,10 @@ public class HelloController implements Initializable {
             for (int kolona = 0; kolona < 10; kolona++)
                 if (statusIgre.igracTabla[red][kolona] == 0)
                     statusIgre.igracDugmad[red][kolona].setStyle(BOJA_NASE_VODE + BTN_BASE);
-                else if (statusIgre.igracTabla[red][kolona] == 1)
+                else if (statusIgre.igracTabla[red][kolona] == 1) {
                     statusIgre.igracDugmad[red][kolona].setStyle(BOJA_BRODA + BTN_BASE);
+                    statusIgre.igracDugmad[red][kolona].setGraphic(null);
+                }
     }
 
     private void showPreviewEnemy(int row, int col) {
