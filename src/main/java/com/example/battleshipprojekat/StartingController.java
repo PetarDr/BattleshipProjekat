@@ -2,15 +2,21 @@ package com.example.battleshipprojekat;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class StartingController {
+public class StartingController implements Initializable {
     public Button closeBtn;
 
     //ovo zatvara stari i otvara novi stage radi mislim
@@ -37,5 +43,16 @@ public class StartingController {
     public void napusti(ActionEvent event) {
         Stage stage = (Stage) closeBtn.getScene().getWindow();
         stage.close();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Media media;
+        MediaPlayer mediaPlayer;
+
+        //ubaci audio
+        media = new Media(new File("").toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
     }
 }
