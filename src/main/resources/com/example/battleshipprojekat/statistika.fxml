@@ -10,8 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="420.0" prefWidth="632.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.battleshipprojekat.StatistikaController">
+<AnchorPane prefHeight="420.0" prefWidth="632.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.battleshipprojekat.StatistikaController">
    <children>
       <Text layoutX="267.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Statistika">
          <font>
@@ -47,7 +46,7 @@
                   <Insets right="15.0" />
                </GridPane.margin>
             </Label>
-            <Label layoutX="95.0" layoutY="71.0" text="Broj hitaca:" GridPane.rowIndex="2">
+            <Label layoutX="95.0" layoutY="71.0" text="Broj omasenih:" GridPane.rowIndex="2">
                <font>
                   <Font name="Lucida Fax Regular" size="13.0" />
                </font>
@@ -71,27 +70,27 @@
                   <Insets right="15.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="label1" layoutX="150.0" layoutY="213.0" text="Rezultat:" GridPane.columnIndex="1">
+            <Label fx:id="brojPotopljenihBrodova" layoutX="150.0" layoutY="213.0" GridPane.columnIndex="1">
                <font>
                   <Font name="Lucida Fax Regular" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="label2" layoutX="279.0" layoutY="26.0" text="Rezultat:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Label fx:id="brojPogodaka" layoutX="279.0" layoutY="26.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font name="Lucida Fax Regular" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="label3" layoutX="279.0" layoutY="73.0" text="Rezultat:" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Label fx:id="brojOmasenih" layoutX="279.0" layoutY="73.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
                   <Font name="Lucida Fax Regular" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="label4" layoutX="279.0" layoutY="120.0" text="Rezultat:" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Label fx:id="brojIzgubljenihBrodova" layoutX="279.0" layoutY="120.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font name="Lucida Fax Regular" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="label5" layoutX="279.0" layoutY="167.0" text="Rezultat:" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <Label fx:id="label5" layoutX="279.0" layoutY="167.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <font>
                   <Font name="Lucida Fax Regular" size="13.0" />
                </font>

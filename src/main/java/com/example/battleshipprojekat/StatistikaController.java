@@ -14,10 +14,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class StatistikaController implements Initializable {
-    public Label label1;
-    public Label label2;
-    public Label label3;
-    public Label label4;
+    public Label brojPotopljenihBrodova;
+    public Label brojPogodaka;
+    public Label brojOmasenih;
+    public Label brojIzgubljenihBrodova;
     public Label label5;
     public Button btnClose;
 
@@ -46,6 +46,14 @@ public class StatistikaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        GameState gs = GameState.INSTANCE;
+        int igracOmasenih = gs.igracHitaca - gs.igracPogodci;
+        String rezultat = gs.igracJePobedio ? "Pobeda!" : "Poraz";
 
+        brojPotopljenihBrodova.setText(gs.igracPotopljenihBrodova + " / 6");
+        brojPogodaka.setText(String.valueOf(gs.igracPogodci));
+        brojOmasenih.setText(String.valueOf(igracOmasenih));
+        brojIzgubljenihBrodova.setText(gs.aiPotopljenihBrodova + " / 6");
+        label5.setText(rezultat);
     }
 }

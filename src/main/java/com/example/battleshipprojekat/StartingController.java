@@ -11,7 +11,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,7 +20,6 @@ public class StartingController implements Initializable {
 
     //ovo zatvara stari i otvara novi stage radi mislim
     public void start(ActionEvent event) throws IOException {
-
         try{
             Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
             Scene scene = new Scene(root);

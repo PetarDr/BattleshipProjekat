@@ -24,10 +24,18 @@ public class GameState {
     public boolean igracPotez = true;
     public boolean gameOver     = false;
 
+    //statistika
     public int playerShipsTotal = 0;
     public int enemyShipsTotal  = 0;
     public int igracPogodci = 0;
     public int aiPogodci = 0;
+    public int igracHitaca = 0;
+    public int aiHitaca = 0;
+    public int igracPotopljenihBrodova = 0;
+    public int aiPotopljenihBrodova = 0;
+    public boolean igracJePobedio = false;
+
+
 
     private GameState() { reset(); }
 
@@ -48,6 +56,11 @@ public class GameState {
         enemyShipsTotal  = 5+4+3+3+2+2;
         igracPogodci = 0;
         aiPogodci = 0;
+        igracHitaca = 0;
+        aiHitaca = 0;
+        igracPotopljenihBrodova = 0;
+        aiPotopljenihBrodova = 0;
+        igracJePobedio = false;
     }
 
     /** Returns list of (row,col) cells a ship of given size would occupy */
