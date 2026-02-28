@@ -21,7 +21,7 @@ import java.util.*;
 public class HelloController implements Initializable {
 
     //da nisam skonto da treba gamestate iz najradnom yt tutorijala nebi nikad ovo uradili
-    private final GameState statusIgre = GameState.INSTANCE;
+    static final GameState statusIgre = GameState.INSTANCE;
 
     @FXML
     private GridPane aiGrid;
@@ -87,6 +87,8 @@ public class HelloController implements Initializable {
 
     // Lista smerova koje jos nismo probali
     private final List<Integer> aiSmeroviZaProbati = new ArrayList<>();
+
+    private final Set<String> radarOtkrivenaCelija = new HashSet<>();
 
     // Smerovi: 0=gore, 1=dole, 2=levo, 3=desno
     private static final int[][] DELTA = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
@@ -227,19 +229,26 @@ public class HelloController implements Initializable {
             }
             case "RADAR" -> {
                 brojRadara--;
+                List<int[]> otkrivena = new ArrayList<>();
                 for (int deltaRed = 0; deltaRed <= 1; deltaRed++) {
                     for (int deltaKolona = 0; deltaKolona <= 1; deltaKolona++) {
                         int red = row + deltaRed, kolona = col + deltaKolona;
                         if (red < 0 || red >= 10 || kolona < 0 || kolona >= 10) continue;
                         if (statusIgre.aiTabla[red][kolona] == 1) {
                             statusIgre.aiDugmad[red][kolona].setStyle("-fx-background-color: #66bb6a;" + BTN_BASE);
+                            radarOtkrivenaCelija.add(red + "," + kolona);
+                            otkrivena.add(new int[]{red, kolona});
                         }
                     }
                 }
                 new Thread(() -> {
                     try { Thread.sleep(1500); } catch (InterruptedException ignored) {}
                     Platform.runLater(() -> {
-                        clearPreviewEnemy();
+                        for (int[] c : otkrivena) {
+                            radarOtkrivenaCelija.remove(c[0] + "," + c[1]);
+                            if (statusIgre.aiTabla[c[0]][c[1]] == 1)
+                                statusIgre.aiDugmad[c[0]][c[1]].setStyle(BOJA_NEPRIJATLJSKE_VODE + BTN_BASE);
+                        }
                         osveziBrojacePowerupa();
                     });
                 }).start();
@@ -392,6 +401,7 @@ public class HelloController implements Initializable {
 
             if (statusIgre.igracPogodci >= statusIgre.enemyShipsTotal) {
                 statusIgre.gameOver = true;
+                statusIgre.igracJePobedio = true;
                 showResult("Čestitke! Pobedio si!");
                 return;
             }
@@ -407,7 +417,7 @@ public class HelloController implements Initializable {
 
         int status = statusIgre.aiTabla[row][col];
         if (status == 2 || status == 3) return;
-        // 0=prazan, 1=brod, 2=pogodak, 3=masi
+        statusIgre.igracHitaca++;
         if (status == 1) {
             statusIgre.aiTabla[row][col] = 2;
             btn.setStyle(BOJA_POGOTKA + BTN_BASE);
@@ -421,6 +431,7 @@ public class HelloController implements Initializable {
 
         if (statusIgre.igracPogodci >= statusIgre.enemyShipsTotal) {
             statusIgre.gameOver = true;
+            statusIgre.igracJePobedio = true;
             showResult("Cestitke! Pobedio si!");
             return;
         }
@@ -457,6 +468,7 @@ public class HelloController implements Initializable {
 
         int[] choice = odaberiBrojZaAi();
         int red = choice[0], kolona = choice[1];
+        statusIgre.aiHitaca++;
 
         if (statusIgre.igracTabla[red][kolona] == 1 || statusIgre.igracTabla[red][kolona] == 4) {
             boolean bilaMina = statusIgre.igracTabla[red][kolona] == 4;
@@ -465,8 +477,13 @@ public class HelloController implements Initializable {
             statusIgre.aiPogodci++;
 
             if (bilaMina) {
-                if (lblPowerupStatus != null)
-                    lblPowerupStatus.setText("Mina je eksplodirala! AI preskace sledeci potez.");
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Mina!");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Mina je eksplodirala! AI preskace sledeci potez.");
+                    alert.showAndWait();
+                });
                 statusIgre.igracPotez = true;
                 return;
             }
@@ -690,6 +707,7 @@ public class HelloController implements Initializable {
             }
         }
         nagradiAiPowerupom();
+        statusIgre.aiPotopljenihBrodova++;
         return true;
     }
 
@@ -727,10 +745,10 @@ public class HelloController implements Initializable {
             }
         }
         nagradiIgracaPowerupom();
+        statusIgre.igracPotopljenihBrodova++;
     }
 
     private void nagradiIgracaPowerupom() {
-        // Svi powerupi su jednako verovatni i to bi mozda trebalo da promenimo
         int izbor = rnd.nextInt(4);
         String naziv;
         switch (izbor) {
@@ -740,17 +758,21 @@ public class HelloController implements Initializable {
             default-> { brojMina++;       naziv = "Mina"; }
         }
         osveziBrojacePowerupa();
-        if (lblPowerupStatus != null) {
-            lblPowerupStatus.setText("Dobio si powerup: " + naziv + "!");
-        }
+        String finalNaziv = naziv;
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Powerup!");
+            alert.setHeaderText(null);
+            alert.setContentText("Dobio si powerup: " + finalNaziv + "!");
+            alert.showAndWait();
+        });
     }
 
     //all praise the indian overlords
     private void dubinaPrvoPregledZaHitove(int red, int kolona, int[][] board, Set<String> pregledano, List<int[]> out) {
         String key = red + "," + kolona;
         if (red < 0 || red >= 10 || kolona < 0 || kolona >= 10 || pregledano.contains(key)) return;
-        // 1=brod, 2=pogodjen, 4=mina
-        if (board[red][kolona] != 1 && board[red][kolona] != 2 && board[red][kolona] != 4) return;
+        if (board[red][kolona] != 1 && board[red][kolona] != 2) return;
         pregledano.add(key);
         out.add(new int[]{red, kolona});
         dubinaPrvoPregledZaHitove(red - 1, kolona, board, pregledano, out);
@@ -792,6 +814,7 @@ public class HelloController implements Initializable {
     private void clearPreviewEnemy() {
         for (int red = 0; red < 10; red++)
             for (int kolona = 0; kolona < 10; kolona++) {
+                if (radarOtkrivenaCelija.contains(red + "," + kolona)) continue;
                 int status = statusIgre.aiTabla[red][kolona];
                 if (status == 0 || status == 1)
                     statusIgre.aiDugmad[red][kolona].setStyle(BOJA_NEPRIJATLJSKE_VODE + BTN_BASE);
@@ -805,22 +828,6 @@ public class HelloController implements Initializable {
             a.setHeaderText(null);
             a.setContentText(msg);
             a.showAndWait();
-
-
-            statusIgre.reset();
-            resetAiTargeting();
-            aktivniPowerup = null;
-            brojBombi = 0; brojRadara = 0; brojArtiljerije = 0; brojMina = 0;
-            aiBrojBombi = 0; aiBrojRadara = 0; aiBrojArtiljerije = 0; aiBrojMina = 0;
-            osveziBrojacePowerupa();
-
-            for (int red = 0; red < 10; red++)
-                for (int kolona = 0; kolona < 10; kolona++) {
-                    statusIgre.igracDugmad[red][kolona].setStyle(BOJA_NASE_VODE + BTN_BASE);
-                    statusIgre.aiDugmad[red][kolona].setStyle(BOJA_NEPRIJATLJSKE_VODE + BTN_BASE);
-                    statusIgre.aiDugmad[red][kolona].setGraphic(napraviVodaView());
-                    statusIgre.igracDugmad[red][kolona].setGraphic(napraviVoda2View());
-                }
             try {
                 otvoriStatistiku();
             } catch (IOException e) {
@@ -838,6 +845,10 @@ public class HelloController implements Initializable {
         stage.setResizable(false);
         stage.setX(520);
         stage.setY(220);
+
+        Stage igraStage = (Stage) btnBomba.getScene().getWindow();
+        igraStage.close();
+
         stage.show();
     }
 }
