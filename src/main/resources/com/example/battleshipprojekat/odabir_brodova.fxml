@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.fxml.*?>
 
 <VBox prefHeight="400.0" prefWidth="600.0" spacing="16.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.battleshipprojekat.OdabirController">
     <padding>
@@ -93,4 +94,5 @@
         </Label>
 
     </children>
+    <fx:include source="zvuk_kontrole.fxml"/>
 </VBox>

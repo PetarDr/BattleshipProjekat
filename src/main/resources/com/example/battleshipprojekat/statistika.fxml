@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import javafx.fxml.*?>
 
 <AnchorPane prefHeight="420.0" prefWidth="632.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.battleshipprojekat.StatistikaController">
    <children>
@@ -108,4 +109,5 @@
          </font>
       </Button>
    </children>
+   <fx:include source="zvuk_kontrole.fxml"/>
 </AnchorPane>

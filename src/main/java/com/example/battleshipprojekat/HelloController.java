@@ -828,6 +828,16 @@ public class HelloController implements Initializable {
             a.setHeaderText(null);
             a.setContentText(msg);
             a.showAndWait();
+
+            resetAiTargeting();
+
+            for (int red = 0; red < 10; red++)
+                for (int kolona = 0; kolona < 10; kolona++) {
+                    statusIgre.igracDugmad[red][kolona].setStyle(BOJA_NASE_VODE + BTN_BASE);
+                    statusIgre.aiDugmad[red][kolona].setStyle(BOJA_NEPRIJATLJSKE_VODE + BTN_BASE);
+                    statusIgre.aiDugmad[red][kolona].setGraphic(napraviVodaView());
+                    statusIgre.igracDugmad[red][kolona].setGraphic(napraviVoda2View());
+                }
             try {
                 otvoriStatistiku();
             } catch (IOException e) {
@@ -845,10 +855,8 @@ public class HelloController implements Initializable {
         stage.setResizable(false);
         stage.setX(520);
         stage.setY(220);
-
         Stage igraStage = (Stage) btnBomba.getScene().getWindow();
         igraStage.close();
-
         stage.show();
     }
 }

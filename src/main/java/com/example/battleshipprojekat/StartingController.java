@@ -13,14 +13,16 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class StartingController implements Initializable {
     public Button closeBtn;
+    private MediaPlayer mediaPlayer;
 
     //ovo zatvara stari i otvara novi stage radi mislim
     public void start(ActionEvent event) throws IOException {
-        try{
+        try {
             Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
             Scene scene = new Scene(root);
 
@@ -45,12 +47,14 @@ public class StartingController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Media media;
-        MediaPlayer mediaPlayer;
-
-        //ubaci audio
-//        media = new Media(new File("").toURI().toString());
-//        mediaPlayer = new MediaPlayer(media);
-//        mediaPlayer.play();
+        try {
+            Media media = new Media(getClass().getResource("/com/example/battleshipprojekat/Music/Muzika.wav").toExternalForm());
+            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.setVolume(0.4);
+            MuzikaManager.pusti(mediaPlayer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

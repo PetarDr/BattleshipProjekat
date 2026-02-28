@@ -23,6 +23,7 @@ public class StatistikaController implements Initializable {
 
     public void start(ActionEvent event) {
         try{
+            HelloController.statusIgre.reset();
             Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
             Scene scene = new Scene(root);
 
