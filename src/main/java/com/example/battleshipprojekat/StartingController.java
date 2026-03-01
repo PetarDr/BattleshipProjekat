@@ -48,7 +48,7 @@ public class StartingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            Media media = new Media(getClass().getResource("/com/example/battleshipprojekat/Music/Muzika.wav").toExternalForm());
+            Media media = new Media(getClass().getResource("/com/example/battleshipprojekat/Music/rideforthvictoriously.wav").toExternalForm());
             mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
             mediaPlayer.setVolume(0.4);
