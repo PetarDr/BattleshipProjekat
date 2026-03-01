@@ -7,7 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -36,7 +36,7 @@ public class GlavniController implements Initializable {
     @FXML
     private Button btnMina;
     @FXML
-    private Label lblPowerupStatus;
+    private TextArea txaPowerupStatus;
 
     private static boolean daLiSeBirajuBrodići = false;
     private static Stage stageZaOdabirBrodića = null; // ovo treba da se zatvori
@@ -124,22 +124,28 @@ public class GlavniController implements Initializable {
 
     private ImageView napraviVodaView() {
         ImageView iv = new ImageView(slika_voda);
-        iv.setFitHeight(36); iv.setFitWidth(52);
-        iv.setOpacity(0.5); iv.setPreserveRatio(false);
+        iv.setFitHeight(36);
+        iv.setFitWidth(52);
+        iv.setOpacity(0.5);
+        iv.setPreserveRatio(false);
         return iv;
     }
 
     private ImageView napraviVoda2View() {
         ImageView iv = new ImageView(slika_voda2);
-        iv.setFitHeight(36); iv.setFitWidth(52);
-        iv.setOpacity(0.5); iv.setPreserveRatio(false);
+        iv.setFitHeight(36);
+        iv.setFitWidth(52);
+        iv.setOpacity(0.5);
+        iv.setPreserveRatio(false);
         return iv;
     }
 
     private ImageView napraviEksplozijuView() {
         ImageView iv = new ImageView(slika_eksplozija);
-        iv.setFitHeight(36); iv.setFitWidth(52);
-        iv.setOpacity(0.5); iv.setPreserveRatio(false);
+        iv.setFitHeight(36);
+        iv.setFitWidth(52);
+        iv.setOpacity(0.5);
+        iv.setPreserveRatio(false);
         return iv;
     }
 
@@ -196,10 +202,16 @@ public class GlavniController implements Initializable {
             btnMina.setStyle(aktivniPowerup != null && aktivniPowerup.equals("MINA")
                     ? "-fx-background-color: #ff9800; -fx-font-weight: bold;" : "");
         }
-        if (lblPowerupStatus != null) {
-            lblPowerupStatus.setText(aktivniPowerup != null
+        if (txaPowerupStatus != null) {
+            txaPowerupStatus.setText(aktivniPowerup != null
                     ? "Aktivan powerup: " + aktivniPowerup + " — klikni na neprijateljevu mrezu!"
                     : "");
+
+            if (txaPowerupStatus.equals("MINA")) {
+                txaPowerupStatus.setText(aktivniPowerup != null
+                        ? "Aktivan powerup: " + aktivniPowerup + " — klikni na svoju mrezu da bi je postavio!"
+                        : "");
+            }
         }
     }
 
@@ -241,7 +253,10 @@ public class GlavniController implements Initializable {
                     }
                 }
                 new Thread(() -> {
-                    try { Thread.sleep(1500); } catch (InterruptedException ignored) {}
+                    try {
+                        Thread.sleep(1500);
+                    } catch (InterruptedException ignored) {
+                    }
                     Platform.runLater(() -> {
                         for (int[] c : otkrivena) {
                             radarOtkrivenaCelija.remove(c[0] + "," + c[1]);
@@ -407,7 +422,10 @@ public class GlavniController implements Initializable {
             if (zavrsiPotez) {
                 statusIgre.igracPotez = false;
                 new Thread(() -> {
-                    try { Thread.sleep(600); } catch (InterruptedException ignored) {}
+                    try {
+                        Thread.sleep(600);
+                    } catch (InterruptedException ignored) {
+                    }
                     Platform.runLater(this::aiShoot);
                 }).start();
             }
@@ -539,10 +557,10 @@ public class GlavniController implements Initializable {
         if (rnd.nextInt(100) >= 40) return null;
 
         List<String> dostupni = new ArrayList<>();
-        if (aiBrojBombi > 0)       dostupni.add("AI_BOMBA");
-        if (aiBrojRadara > 0)      dostupni.add("AI_RADAR");
+        if (aiBrojBombi > 0) dostupni.add("AI_BOMBA");
+        if (aiBrojRadara > 0) dostupni.add("AI_RADAR");
         if (aiBrojArtiljerije > 0) dostupni.add("AI_ARTILJERIJA");
-        if (aiBrojMina > 0)        dostupni.add("AI_MINA");
+        if (aiBrojMina > 0) dostupni.add("AI_MINA");
 
         return dostupni.get(rnd.nextInt(dostupni.size()));
     }
@@ -744,7 +762,7 @@ public class GlavniController implements Initializable {
             }
         }
         statusIgre.igracPotopljenihBrodova++;
-        if(statusIgre.igracPotopljenihBrodova != 6){
+        if (statusIgre.igracPotopljenihBrodova != 6) {
             nagradiIgracaPowerupom();
         }
     }
@@ -753,10 +771,22 @@ public class GlavniController implements Initializable {
         int izbor = rnd.nextInt(4);
         String naziv;
         switch (izbor) {
-            case 0 -> { brojBombi++;      naziv = "Bomba"; }
-            case 1 -> { brojRadara++;     naziv = "Radar"; }
-            case 2 -> { brojArtiljerije++;naziv = "Artiljerija"; }
-            default-> { brojMina++;       naziv = "Mina"; }
+            case 0 -> {
+                brojBombi++;
+                naziv = "Bomba";
+            }
+            case 1 -> {
+                brojRadara++;
+                naziv = "Radar";
+            }
+            case 2 -> {
+                brojArtiljerije++;
+                naziv = "Artiljerija";
+            }
+            default -> {
+                brojMina++;
+                naziv = "Mina";
+            }
         }
         osveziBrojacePowerupa();
         String finalNaziv = naziv;

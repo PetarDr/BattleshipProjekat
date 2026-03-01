@@ -27,7 +27,7 @@ public class StartingController implements Initializable {
             Scene scene = new Scene(root);
 
             Stage noviStage = new Stage();
-            noviStage.setTitle("Potapanje Brodova");
+            noviStage.setTitle("Brodići");
             noviStage.setScene(scene);
             noviStage.setResizable(false);
             noviStage.show();
