@@ -21,6 +21,7 @@ public class StatistikaController implements Initializable {
     public Label label5;
     public Button btnClose;
 
+    //otvaranje prozora igre
     public void start(ActionEvent event) {
         try{
             GlavniController.statusIgre.reset();
@@ -40,6 +41,7 @@ public class StatistikaController implements Initializable {
         }
     }
 
+    //close
     public void napusti(ActionEvent event) {
         Stage stage = (Stage) btnClose.getScene().getWindow();
         stage.close();
@@ -47,6 +49,7 @@ public class StatistikaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //setovanje podataka o gameu
         GameState gs = GameState.INSTANCE;
         int igracOmasenih = gs.igracHitaca - gs.igracPogodci;
         String rezultat = gs.igracJePobedio ? "Pobeda!" : "Poraz";
