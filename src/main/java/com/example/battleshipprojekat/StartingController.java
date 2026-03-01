@@ -23,7 +23,7 @@ public class StartingController implements Initializable {
     //ovo zatvara stari i otvara novi stage radi mislim
     public void start(ActionEvent event) throws IOException {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("glavni-view.fxml"));
             Scene scene = new Scene(root);
 
             Stage noviStage = new Stage();

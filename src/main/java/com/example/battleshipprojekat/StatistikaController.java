@@ -23,8 +23,8 @@ public class StatistikaController implements Initializable {
 
     public void start(ActionEvent event) {
         try{
-            HelloController.statusIgre.reset();
-            Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
+            GlavniController.statusIgre.reset();
+            Parent root = FXMLLoader.load(getClass().getResource("glavni-view.fxml"));
             Scene scene = new Scene(root);
 
             Stage noviStage = new Stage();
@@ -52,7 +52,7 @@ public class StatistikaController implements Initializable {
         String rezultat = gs.igracJePobedio ? "Pobeda!" : "Poraz";
 
         brojPotopljenihBrodova.setText(gs.igracPotopljenihBrodova + " / 6");
-        brojPogodaka.setText(String.valueOf(gs.igracPogodci));
+        brojPogodaka.setText(String.valueOf(gs.igracPogodci) + " / 19");
         brojOmasenih.setText(String.valueOf(igracOmasenih));
         brojIzgubljenihBrodova.setText(gs.aiPotopljenihBrodova + " / 6");
         label5.setText(rezultat);

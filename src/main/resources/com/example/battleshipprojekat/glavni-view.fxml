@@ -15,7 +15,7 @@
 <?import javafx.fxml.*?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="892.0"
       prefWidth="900.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/22"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.battleshipprojekat.HelloController">
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.battleshipprojekat.GlavniController">
     <children>
         <AnchorPane prefHeight="50.0" prefWidth="732.0">
             <children>

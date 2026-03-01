@@ -1,7 +1,6 @@
 package com.example.battleshipprojekat;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,7 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class HelloController implements Initializable {
+public class GlavniController implements Initializable {
 
     //da nisam skonto da treba gamestate iz najradnom yt tutorijala nebi nikad ovo uradili
     static final GameState statusIgre = GameState.INSTANCE;
@@ -97,7 +96,7 @@ public class HelloController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         String path = url != null ? url.getPath() : "";
-        if (path.contains("hello-view.fxml")) {
+        if (path.contains("glavni-view.fxml")) {
             ucitajSlikeAkoNisuUcitane();
             buildGrids();
             otvoriOdabirBrodića();
@@ -744,8 +743,10 @@ public class HelloController implements Initializable {
                 }
             }
         }
-        nagradiIgracaPowerupom();
         statusIgre.igracPotopljenihBrodova++;
+        if(statusIgre.igracPotopljenihBrodova != 6){
+            nagradiIgracaPowerupom();
+        }
     }
 
     private void nagradiIgracaPowerupom() {
